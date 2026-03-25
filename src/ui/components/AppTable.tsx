@@ -1,5 +1,7 @@
 import type * as React from 'react';
 
+import { radii } from 'ui/tokens';
+
 import {
   Table,
   TableContainer,
@@ -11,7 +13,6 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { radii } from 'lib/theme';
 
 export interface AppTableColumn<Row> {
   id: string;

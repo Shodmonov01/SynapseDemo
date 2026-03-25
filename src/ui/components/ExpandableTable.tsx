@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { radii } from 'ui/tokens';
+
 import type { AppTableColumn } from './AppTable';
 
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
@@ -16,7 +18,6 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { radii } from 'lib/theme';
 
 export interface ExpandableTableProps<Row> extends TableProps {
   columns: AppTableColumn<Row>[];

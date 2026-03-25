@@ -1,7 +1,8 @@
 import type * as React from 'react';
 
+import { spacing } from 'ui/tokens';
+
 import { Box, HStack, Icon, Text, VStack } from '@chakra-ui/react';
-import { spacing } from 'lib/theme';
 
 export type InfoItemLayout = 'vertical' | 'horizontal';
 

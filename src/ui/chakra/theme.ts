@@ -1,13 +1,4 @@
-import {
-  Avatar,
-  Badge,
-  Button,
-  Card,
-  IconButton,
-  Input,
-  Table,
-  Tabs,
-} from './components';
+import { Avatar, Badge, Button, Card, IconButton, Input, Table, Tabs } from './';
 import { colors } from '../tokens/colors';
 import { radii } from '../tokens/radii';
 import { semantic } from '../tokens/semantic';

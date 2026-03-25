@@ -1,7 +1,8 @@
 import * as React from 'react';
 
+import { spacing } from 'ui/tokens';
+
 import { Box, type BoxProps, Heading, VStack } from '@chakra-ui/react';
-import { spacing } from 'lib/theme';
 
 export interface PageSectionProps extends BoxProps {
   title?: string;

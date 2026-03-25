@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import { AppThemeProvider } from 'lib/theme';
+import { AppThemeProvider } from 'ui/AppThemeProvider';
 
 export interface ShellProvidersProps {
   children: React.ReactNode;

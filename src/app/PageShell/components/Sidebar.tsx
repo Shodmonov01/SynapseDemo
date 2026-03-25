@@ -1,15 +1,122 @@
 import * as React from 'react';
 
-import { SHELL_NAV_ITEMS } from '../constants';
-import type { ShellNavItem } from '../types';
-
-import { Avatar, Box, Icon, Text, VStack } from '@chakra-ui/react';
-import { radii } from 'lib/theme';
+import { SHELL_NAV_SECTIONS, SHELL_STRIP_BOTTOM, SHELL_STRIP_TOP } from '../constants';
+import type { ShellNavItem, ShellStripAction } from '../types';
 
 export interface SidebarProps {
   activeId: string;
   onNavigate: (id: string) => void;
 }
+
+const stripIconClassName =
+  'flex size-10 shrink-0 items-center justify-center rounded-full border-0 bg-brand-400 p-0 ' +
+  'cursor-pointer text-on-brand no-underline transition-[background-color,transform] duration-150 ease-out ' +
+  'hover:enabled:bg-brand-300 active:enabled:scale-[0.97] ' +
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-200 ' +
+  'disabled:cursor-not-allowed disabled:opacity-45';
+
+const StripIconButton: React.FC<{
+  action: ShellStripAction;
+  onActivate?: (id: string) => void;
+}> = ({ action, onActivate }) => {
+  const IconComponent = action.icon;
+  const handleClick = React.useCallback(() => {
+    if (action.isDisabled) {
+      return;
+    }
+    onActivate?.(action.id);
+  }, [action.id, action.isDisabled, onActivate]);
+
+  if (action.href && !action.isDisabled) {
+    return (
+      <a
+        className={stripIconClassName}
+        href={action.href}
+        aria-label={action.label}
+        title={action.label}
+      >
+        <IconComponent />
+      </a>
+    );
+  }
+
+  return (
+    <button
+      type='button'
+      className={stripIconClassName}
+      aria-label={action.label}
+      title={action.label}
+      disabled={Boolean(action.isDisabled)}
+      onClick={handleClick}
+    >
+      <IconComponent />
+    </button>
+  );
+};
+
+const NavRow: React.FC<{
+  item: ShellNavItem;
+  active: boolean;
+  onSelect: (item: ShellNavItem) => void;
+}> = ({ item, active, onSelect }) => {
+  const IconComponent = item.icon;
+  const handleClick = React.useCallback(() => {
+    onSelect(item);
+  }, [item, onSelect]);
+
+  const linkClassName = [
+    'flex w-full cursor-pointer items-center gap-3 border-0 py-2.5 pl-3 pr-3 text-left text-sm font-semibold no-underline transition-colors duration-150',
+    'rounded-l-xl rounded-r-none max-md:rounded-xl',
+    'focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-300',
+    'disabled:cursor-not-allowed disabled:opacity-45',
+    active
+      ? 'bg-brand-700 text-on-brand hover:enabled:bg-brand-600'
+      : 'bg-transparent text-fg-default hover:enabled:bg-nav-hover',
+  ].join(' ');
+
+  const inner = (
+    <>
+      {IconComponent ? (
+        <span className='flex shrink-0 items-center justify-center text-inherit'>
+          <IconComponent />
+        </span>
+      ) : null}
+      <span className='min-w-0 truncate'>{item.label}</span>
+    </>
+  );
+
+  if (item.href && !item.isDisabled) {
+    return (
+      <li className='m-0 p-0'>
+        <a
+          className={linkClassName}
+          href={item.href}
+          aria-current={active ? 'page' : undefined}
+        >
+          {inner}
+        </a>
+      </li>
+    );
+  }
+
+  return (
+    <li className='m-0 p-0'>
+      <button
+        type='button'
+        className={linkClassName}
+        disabled={Boolean(item.isDisabled)}
+        aria-current={active ? 'page' : undefined}
+        onClick={handleClick}
+      >
+        {inner}
+      </button>
+    </li>
+  );
+};
+
+const pillBaseClassName =
+  'flex w-full max-w-[3.25rem] flex-col items-center rounded-full bg-brand-700 shadow-[0_0_0_1px_rgba(255,255,255,0.08)] ' +
+  'max-md:max-w-none max-md:w-auto max-md:flex-none max-md:flex-row';
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeId, onNavigate }) => {
   const handleSelect = React.useCallback(
@@ -22,140 +129,71 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeId, onNavigate }) => {
     [onNavigate],
   );
 
-  const width = '260px';
-
   return (
-    <VStack
-      as='aside'
-      align='stretch'
-      spacing={0}
-      w={width}
-      minW={width}
-      minH='100vh'
-      flexShrink={0}
-      bg='brand.700'
-      color='fg.onBrand'
-      py={4}
+    <aside
+      className='flex min-h-0 shrink-0 items-stretch self-stretch bg-white max-md:max-h-none max-md:w-full max-md:flex-col'
+      aria-label='Основная навигация'
     >
-      <Box px={4} pb={6} borderBottomWidth='1px' borderColor='whiteAlpha.200'>
-        <Text fontSize='lg' fontWeight='bold' letterSpacing='tight'>
-          Synapse
-        </Text>
-      </Box>
-
-      <VStack align='stretch' spacing={1} px={3} pt={6} flex='1' overflowY='auto'>
-        {SHELL_NAV_ITEMS.map((item) => {
-          const active = item.id === activeId;
-          const IconComponent = item.icon;
-          const row = (
-            <NavRow
-              active={active}
-              disabled={Boolean(item.isDisabled)}
-              label={item.label}
-              icon={IconComponent}
-            />
-          );
-
-          if (item.href && !item.isDisabled) {
-            return (
-              <Box
-                key={item.id}
-                as='a'
-                href={item.href}
-                display='block'
-                borderRadius={radii.lg}
-                cursor='pointer'
-                textDecoration='none'
-                outline='none'
-                _focusVisible={{ boxShadow: 'outline' }}
-              >
-                {row}
-              </Box>
-            );
+      <div
+        className={
+          'flex min-h-0 w-[4.5rem] shrink-0 flex-col items-center bg-brand-700 py-4 px-2 ' +
+          'max-md:w-full max-md:flex-none max-md:flex-row max-md:justify-center max-md:gap-4 max-md:p-3'
+        }
+      >
+        <div
+          className={
+            `${pillBaseClassName} min-h-[5rem] flex-1 justify-start gap-3 px-2 pb-4 pt-3 ` +
+            'max-md:min-h-0 max-md:justify-center max-md:mt-0'
           }
+        >
+          {SHELL_STRIP_TOP.map((action) => (
+            <StripIconButton key={action.id} action={action} />
+          ))}
+        </div>
+        <div
+          className={
+            `${pillBaseClassName} mt-auto flex-none gap-2.5 px-2 pb-3.5 pt-3 ` +
+            'max-md:mt-0 max-md:flex-wrap max-md:justify-center'
+          }
+        >
+          {SHELL_STRIP_BOTTOM.map((action) => (
+            <StripIconButton key={action.id} action={action} />
+          ))}
+        </div>
+      </div>
 
-          return (
-            <Box
-              key={item.id}
-              as='button'
-              type='button'
-              display='block'
-              w='full'
-              border='none'
-              cursor={item.isDisabled ? 'not-allowed' : 'pointer'}
-              bg='transparent'
-              p={0}
-              textAlign='left'
-              borderRadius={radii.lg}
-              onClick={() => {
-                handleSelect(item);
-              }}
-              disabled={item.isDisabled}
-              opacity={item.isDisabled ? 0.45 : 1}
-              _focusVisible={{ boxShadow: 'outline' }}
+      <nav
+        className={
+          'flex min-h-0 w-[17.5rem] min-w-[17.5rem] max-w-[17.5rem] flex-1 flex-col overflow-y-auto ' +
+          'border-r border-nav-border bg-white py-6 pl-3 pr-0 ' +
+          'max-md:max-w-none max-md:min-w-0 max-md:w-full max-md:border-b max-md:border-r-0'
+        }
+      >
+        {SHELL_NAV_SECTIONS.map((section) => (
+          <section
+            key={section.id}
+            className='mb-6 last:mb-0'
+            aria-labelledby={`nav-${section.id}`}
+          >
+            <h2
+              id={`nav-${section.id}`}
+              className='mb-2.5 ml-2 text-[0.6875rem] font-semibold uppercase tracking-wide text-fg-section'
             >
-              {row}
-            </Box>
-          );
-        })}
-      </VStack>
-
-      <Box px={3} pt={4} mt='auto' borderTopWidth='1px' borderColor='whiteAlpha.200'>
-        <Box display='flex' alignItems='center' gap={3} px={2} py={1}>
-          <Avatar size='sm' name='Пользователь' />
-          <Box minW={0}>
-            <Text fontSize='sm' fontWeight='semibold' noOfLines={1}>
-              Иванов И.И.
-            </Text>
-            <Text fontSize='xs' opacity={0.8} noOfLines={1}>
-              Врач
-            </Text>
-          </Box>
-        </Box>
-      </Box>
-    </VStack>
-  );
-};
-
-interface NavRowProps {
-  active: boolean;
-  disabled: boolean;
-  label: string;
-  icon?: React.ElementType;
-}
-
-const NavRow: React.FC<NavRowProps> = ({
-  active,
-  disabled,
-  label,
-  icon: IconComponent,
-}) => {
-  return (
-    <Box
-      display='flex'
-      alignItems='center'
-      gap={3}
-      w='full'
-      px={3}
-      py={2.5}
-      borderRadius={radii.lg}
-      bg={active ? 'whiteAlpha.200' : 'transparent'}
-      color='inherit'
-      transition='background 0.15s ease'
-      _hover={
-        disabled
-          ? undefined
-          : {
-              bg: active ? 'whiteAlpha.200' : 'whiteAlpha.100',
-            }
-      }
-    >
-      {IconComponent ? (
-        <Icon as={IconComponent} boxSize={5} flexShrink={0} opacity={0.95} />
-      ) : null}
-      <Text fontSize='sm' fontWeight='semibold' noOfLines={1}>
-        {label}
-      </Text>
-    </Box>
+              {section.title}
+            </h2>
+            <ul className='m-0 flex list-none flex-col gap-1 p-0'>
+              {section.items.map((item) => (
+                <NavRow
+                  key={item.id}
+                  item={item}
+                  active={item.id === activeId}
+                  onSelect={handleSelect}
+                />
+              ))}
+            </ul>
+          </section>
+        ))}
+      </nav>
+    </aside>
   );
 };

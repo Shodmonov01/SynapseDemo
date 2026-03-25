@@ -1,7 +1,8 @@
 import type * as React from 'react';
 
+import { radii } from 'ui/tokens';
+
 import { Flex, Heading, HStack } from '@chakra-ui/react';
-import { radii } from 'lib/theme';
 
 export interface TableToolbarProps {
   title: React.ReactNode;

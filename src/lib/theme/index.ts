@@ -1,5 +1,5 @@
-export { AppThemeProvider } from './AppThemeProvider';
-export type { AppThemeProviderProps } from './AppThemeProvider';
-export { synapseTheme } from './chakra/theme';
-export type { SynapseTheme } from './chakra/theme';
-export * from './tokens';
+export { AppThemeProvider } from '../../ui/AppThemeProvider';
+export type { AppThemeProviderProps } from '../../ui/AppThemeProvider';
+export { synapseTheme } from '../../ui/chakra/theme';
+export type { SynapseTheme } from '../../ui/chakra/theme';
+export * from '../../ui/tokens';

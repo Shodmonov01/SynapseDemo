@@ -3,10 +3,9 @@ import moduleFederationConfig from './module-federation.config';
 import { pluginModuleFederation } from '@module-federation/rsbuild-plugin';
 import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
-import { pluginSass } from '@rsbuild/plugin-sass';
 
 export default defineConfig({
-  plugins: [pluginReact(), pluginSass(), pluginModuleFederation(moduleFederationConfig)],
+  plugins: [pluginReact(), pluginModuleFederation(moduleFederationConfig)],
   resolve: {
     alias: {
       '@synapse/theme': './src/lib/theme',

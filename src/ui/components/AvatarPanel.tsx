@@ -1,7 +1,8 @@
 import type * as React from 'react';
 
+import { radii } from 'ui/tokens';
+
 import { Avatar, type AvatarProps, Box } from '@chakra-ui/react';
-import { radii } from 'lib/theme';
 
 export interface AvatarPanelProps extends AvatarProps {
   /** Обводка «рамка» как в дизайне */

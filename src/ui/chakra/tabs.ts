@@ -1,5 +1,5 @@
-import { colors } from '../../tokens/colors';
-import { radii } from '../../tokens/radii';
+import { colors } from '../tokens/colors';
+import { radii } from '../tokens/radii';
 
 import type { ComponentStyleConfig } from '@chakra-ui/react';
 

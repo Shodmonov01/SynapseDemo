@@ -1,12 +1,13 @@
 import * as React from 'react';
 
+import { radii } from 'ui/tokens';
+
 import { AvatarPanel } from './AvatarPanel';
 import { InfoItem } from './InfoItem';
 import { StatusBadge } from './StatusBadge';
 import type { StatusTone } from '../types/status';
 
 import { Box, Card, CardBody, HStack, SimpleGrid, VStack } from '@chakra-ui/react';
-import { radii } from 'lib/theme';
 
 export interface UserSummaryMetaItem {
   id: string;
