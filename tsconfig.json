@@ -24,8 +24,7 @@
       "ui": ["ui/index.ts"],
       "ui/*": ["ui/*"],
       "styles/*": ["styles/*"],
-      "@synapse/theme": ["lib/theme/index.ts"],
-      "@synapse/theme/*": ["lib/theme/*"],
+      "@synapse/theme": ["theme.ts"],
       "@synapse/ui": ["ui/index.ts"],
       "@synapse/ui/*": ["ui/*"],
       "*": ["../@mf-types/*"]

@@ -4,7 +4,7 @@ export default createModuleFederationConfig({
   name: 'synapse',
   exposes: {
     './providers': './src/app/providers/ShellProviders.tsx',
-    './theme': './src/lib/theme/index.ts',
+    // './theme': './src/theme/index.ts',
     './ui': './src/ui/index.ts',
   },
   shared: {

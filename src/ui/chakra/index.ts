@@ -6,3 +6,5 @@ export { Table } from './table';
 export { Badge } from './badge';
 export { Card } from './card';
 export { Avatar } from './avatar';
+export { synapseTheme } from './theme';
+export type { SynapseTheme } from './theme';

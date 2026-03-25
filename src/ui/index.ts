@@ -30,3 +30,5 @@ export type {
   UserSummaryMetaItem,
 } from './components/UserSummaryCard';
 export type { StatusTone } from './types/status';
+export { AppThemeProvider } from './AppThemeProvider';
+export type { AppThemeProviderProps } from './AppThemeProvider';

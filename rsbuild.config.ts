@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [pluginReact(), pluginModuleFederation(moduleFederationConfig)],
   resolve: {
     alias: {
-      '@synapse/theme': './src/lib/theme',
+      // '@synapse/theme': './src/theme.ts',
       '@synapse/ui': './src/ui',
       app: './src/app',
       lib: './src/lib',
