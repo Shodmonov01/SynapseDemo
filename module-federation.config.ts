@@ -4,8 +4,8 @@ export default createModuleFederationConfig({
   name: 'synapse',
   exposes: {
     './providers': './src/app/providers/ShellProviders.tsx',
-    './theme': './src/shared/theme/index.ts',
-    './ui': './src/shared/ui/index.ts',
+    './theme': './src/lib/theme/index.ts',
+    './ui': './src/ui/index.ts',
   },
   shared: {
     react: { singleton: true },

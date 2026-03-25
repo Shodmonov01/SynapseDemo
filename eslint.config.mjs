@@ -27,7 +27,6 @@ export default tseslint.config(
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat['jsx-runtime'],
   ...storybookPlugin.configs['flat/recommended'],
-  prettierPluginRecommended,
   {
     files: ['**/*.ts', '**/*.tsx'],
     plugins: {
@@ -76,6 +75,8 @@ export default tseslint.config(
       },
     },
   },
+  // Last: eslint-config-prettier must not be overridden by baseRules (quotes, semi, …)
+  prettierPluginRecommended,
   {
     // totally ignore these files
     ignores: ['*.d.ts', 'node_modules', 'public', 'dist', 'dev-dist'],
