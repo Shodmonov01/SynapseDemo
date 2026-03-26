@@ -1,0 +1,12 @@
+export { IconAddPerson } from './AddPerson';
+export { IconArchiveBook } from './ArchiveBook.icon';
+export { IconCards } from './Cards.icon';
+export { IconDocumentForward } from './DocumentForward.icon';
+export { IconLogo } from './Logo';
+export { IconMessages } from './Messages.icon';
+export { IconPin } from './Pin.icon';
+export { IconSecurity } from './Security.icon';
+export { IconSetting } from './Setting.icon';
+export { IconSupport } from './Support';
+export { IconTruck } from './Truck.icon';
+export { IconUsers } from './Users';
