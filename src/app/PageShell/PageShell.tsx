@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useOutlet } from 'react-router-dom';
 
 import { Header, Sidebar } from './components';
 import { SHELL_NAV_DEFAULT_ID, SHELL_NAV_TITLE } from './constants';
@@ -8,6 +9,7 @@ import { SearchInput } from 'shared';
 
 export const PageShell: React.FC = () => {
   const [activeId, setActiveId] = React.useState(SHELL_NAV_DEFAULT_ID);
+  const outlet = useOutlet();
 
   return (
     <Flex align='stretch' minH='100vh' w='full'>
@@ -19,9 +21,11 @@ export const PageShell: React.FC = () => {
         />
         <Box as='main' flex='1' overflow='auto' bg='bg.app'>
           <Box p={{ base: 4, md: 8 }} maxW='1200px'>
-            <Text color='fg.muted' fontSize='sm'>
-              Контент 
-            </Text>
+            {outlet ?? (
+              <Text color='fg.muted' fontSize='sm'>
+                Контент
+              </Text>
+            )}
           </Box>
         </Box>
       </Flex>
