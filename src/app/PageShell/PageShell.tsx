@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { useOutlet } from 'react-router-dom';
 
-import { BellIcon, SearchIcon, SettingsIcon } from '@chakra-ui/icons';
+import { SearchIcon, SettingsIcon } from '@chakra-ui/icons';
 import { Avatar, Box, Button, Flex, IconButton, Text } from '@chakra-ui/react';
 import { SearchInput } from 'shared';
-import { IconAddPerson } from 'shared/icons';
+import { colors } from 'shared/tokens/colors';
+import { IconAddPerson, IconNotification } from 'shared/icons';
 
 import { Header, Sidebar } from './components';
 import { SHELL_NAV_DEFAULT_ID, SHELL_NAV_TITLE } from './constants';
@@ -28,12 +29,8 @@ const addPatientIcon = (
   </Box>
 );
 
-/**
- * Правая зона хедера по Figma 681:17265: «Добавить пациента» 218×40 → отступ 17px → поиск 218×40 →
- * отступ 20px → уведомления (фон #EBEFF9, radius 26) + настройки + профиль (gap 12px).
- */
 const PageShellHeaderTrailing: React.FC = () => (
-  <Flex align='center' flexWrap='wrap' rowGap={3}>
+  <Flex align='center' rowGap={3}>
     <Button
       type='button'
       h='40px'
@@ -87,7 +84,7 @@ const PageShellHeaderTrailing: React.FC = () => (
         type='button'
         aria-label='Уведомления'
         variant='ghost'
-        icon={<BellIcon boxSize={5} color='#060A14' />}
+        icon={<IconNotification />}
         w='40px'
         minW='40px'
         h='40px'
@@ -121,7 +118,7 @@ const PageShellHeaderTrailing: React.FC = () => (
           <Text fontSize='xs' fontWeight='medium' lineHeight='1.22' color='#060A14' noOfLines={1}>
             Регистратор 1
           </Text>
-          <Text fontSize='8px' fontWeight='normal' lineHeight='1.22' color='#223B77' noOfLines={1}>
+          <Text fontSize='8px' fontWeight='normal' lineHeight='1.22' color={colors.app.shellStripIconFg} noOfLines={1}>
             Регистратор
           </Text>
         </Flex>
@@ -140,18 +137,16 @@ export const PageShell: React.FC = () => {
       <Flex
         direction='column'
         flex='1'
-        minW={0}
-        minH={0}
         bg={HEADER_PAGE_BG}
         pt={3}
         px={{ base: 4, md: 10 }}
         gap={4}
       >
         <Header title={SHELL_NAV_TITLE[activeId] ?? 'Раздел'} trailing={<PageShellHeaderTrailing />} />
-        <Box as='main' flex='1' overflow='auto' bg='bg.app' minH={0}>
-          <Box p={{ base: 4, md: 8 }} maxW='1200px'>
+        <Box as='main' flex='1' overflow='auto'  minH={0}>
+          <Box p={{ base: 4, md: 8 }}>
             {outlet ?? (
-              <Text color='fg.muted' fontSize='sm'>
+              <Text  fontSize='sm'>
                 Контент
               </Text>
             )}

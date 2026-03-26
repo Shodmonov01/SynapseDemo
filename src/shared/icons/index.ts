@@ -10,3 +10,4 @@ export { IconSetting } from './Setting.icon';
 export { IconSupport } from './Support';
 export { IconTruck } from './Truck.icon';
 export { IconUsers } from './Users';
+export { IconNotification } from './Notification.icon';

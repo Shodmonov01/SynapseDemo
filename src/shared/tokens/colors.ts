@@ -30,6 +30,22 @@ export const colors = {
     background: '#F0F4F8',
     surface: '#FFFFFF',
     borderSubtle: '#E2E8F0',
+    /** Верхние иконки в pill-сайдбара (Figma) */
+    shellStripIconBg: '#AEB8D5',
+    /** Иконка на лавандовом фоне полосы (Button variant shellLavender), шапка сайдбара, pill */
+    shellStripIconFg: '#223B77',
+    /** Hover активного пункта навигации сайдбара */
+    shellNavActiveHover: '#2a4688',
+    /** Обводка pill-колонки иконок */
+    shellPillBorder: '#374A76',
+    /** Focus ring (outline) для ссылок навигации — 50% от shellStripIconFg */
+    shellStripIconFgFocusRing: 'rgba(34, 59, 119, 0.5)',
+    shellStripIconHover: '#9DACC8',
+    shellStripIconActive: '#8A9BB8',
+    /** Полупрозрачный серо-голубой (hover нижней полосы / альт. фон иконки) */
+    shellStripMutedBg: 'rgba(174, 184, 213, 0.37)',
+    shellStripMutedHover: 'rgba(174, 184, 213, 0.5)',
+    shellStripMutedActive: 'rgba(174, 184, 213, 0.6)',
   },
   status: {
     urgent: {

@@ -1,4 +1,5 @@
 import type * as React from 'react';
+import { colors } from 'shared/tokens/colors';
 import { IconLogo } from 'shared/icons';
 
 export interface ShellTopBarProps {
@@ -6,14 +7,14 @@ export interface ShellTopBarProps {
   versionLabel?: string;
 }
 
-/** Шапка сайдбара по макету Figma (Frame 159): 90px, фон #223B77, логотип 90×90. */
 export const ShellTopBar: React.FC<ShellTopBarProps> = ({
   clinicLabel = 'Клиника',
   versionLabel = 'v. 1.0.0',
 }) => {
   return (
     <div
-      className='flex h-[5.625rem] min-h-[5.625rem] shrink-0 items-center gap-2 bg-[#223B77] pl-[10px] pr-5 text-on-brand'
+      className='flex h-[5.625rem] min-h-[5.625rem] shrink-0 items-center gap-2 pl-[10px] pr-5 text-on-brand'
+      style={{ backgroundColor: colors.app.shellStripIconFg }}
       aria-label='Synapse medical system'
     >
       <div className='flex size-[5.625rem] shrink-0 items-center justify-center overflow-hidden'>

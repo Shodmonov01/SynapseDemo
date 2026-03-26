@@ -1,6 +1,5 @@
 import { buttonTheme } from './button';
 import { cardTheme } from './card';
-import { iconButtonTheme } from './iconButton';
 import { tableTheme } from './table';
 import { tabsTheme } from './tabs';
 import { colors } from '../tokens/colors';
@@ -75,7 +74,6 @@ export const synapseTheme = extendTheme({
   },
   components: {
     Button: buttonTheme,
-    IconButton: iconButtonTheme,
     Tabs: tabsTheme,
     Table: tableTheme,
     Card: cardTheme,
