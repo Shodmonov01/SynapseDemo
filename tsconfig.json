@@ -21,11 +21,11 @@
     "paths": {
       "app/*": ["app/*"],
       "lib/*": ["lib/*"],
-      "ui": ["ui/index.ts"],
-      "ui/*": ["ui/*"],
+      "shared": ["shared/index.ts"],
+      "shared/*": ["shared/*"],
       "styles/*": ["styles/*"],
       "@synapse/theme": ["theme.ts"],
-      "@synapse/ui": ["ui/index.ts"],
+      "@synapse/shared": ["shared/index.ts"],
       "@synapse/ui/*": ["ui/*"],
       "*": ["../@mf-types/*"]
     }

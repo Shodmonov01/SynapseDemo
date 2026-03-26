@@ -3,7 +3,7 @@ import { semantic } from '../tokens/semantic';
 
 import type { ComponentStyleConfig } from '@chakra-ui/react';
 
-export const Table: ComponentStyleConfig = {
+export const tableTheme: ComponentStyleConfig = {
   variants: {
     soft: {
       th: {

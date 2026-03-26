@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+import { colors } from '../tokens/colors';
+import { radii } from '../tokens/radii';
+
 import { SearchIcon } from '@chakra-ui/icons';
 import { Input, InputGroup, type InputProps, InputRightElement } from '@chakra-ui/react';
 
@@ -20,7 +23,23 @@ export const SearchInput: React.FC<SearchInputProps> = ({
 
   return (
     <InputGroup size='md'>
-      <Input variant='search' pr={pr ?? 10} {...rest} />
+      <Input
+        variant='unstyled'
+        pr={pr ?? 10}
+        h='40px'
+        pl={4}
+        borderRadius={radii.pill}
+        bg={colors.app.surface}
+        borderWidth='1px'
+        borderStyle='solid'
+        borderColor={colors.neutral[200]}
+        _hover={{ borderColor: colors.neutral[300] }}
+        _focusVisible={{
+          borderColor: colors.brand[400],
+          boxShadow: `0 0 0 1px ${colors.brand[400]}`,
+        }}
+        {...rest}
+      />
       <InputRightElement pointerEvents='none' h='full' pr={3}>
         {icon}
       </InputRightElement>

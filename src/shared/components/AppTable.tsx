@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import { radii } from 'ui/tokens';
+import { radii } from '../tokens/radii';
 
 import {
   Table,

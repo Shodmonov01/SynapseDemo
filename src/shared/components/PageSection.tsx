@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { spacing } from 'ui/tokens';
+import { spacing } from '../tokens/spacing';
 
 import { Box, type BoxProps, Heading, VStack } from '@chakra-ui/react';
 

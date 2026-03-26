@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { ShellTopBar } from './ShellTopBar';
 import { SHELL_NAV_SECTIONS, SHELL_STRIP_BOTTOM, SHELL_STRIP_TOP } from '../constants';
 import type { ShellNavItem, ShellStripAction } from '../types';
 
@@ -131,69 +132,75 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeId, onNavigate }) => {
 
   return (
     <aside
-      className='flex min-h-0 shrink-0 items-stretch self-stretch bg-white max-md:max-h-none max-md:w-full max-md:flex-col'
+      className={
+        'flex min-h-screen shrink-0 flex-col bg-white max-md:min-h-0 max-md:w-full ' +
+        'max-md:max-h-none'
+      }
       aria-label='Основная навигация'
     >
-      <div
-        className={
-          'flex min-h-0 w-[4.5rem] shrink-0 flex-col items-center bg-brand-700 py-4 px-2 ' +
-          'max-md:w-full max-md:flex-none max-md:flex-row max-md:justify-center max-md:gap-4 max-md:p-3'
-        }
-      >
+      <ShellTopBar />
+      <div className='flex min-h-0 flex-1 flex-row items-stretch max-md:flex-col'>
         <div
           className={
-            `${pillBaseClassName} min-h-[5rem] flex-1 justify-start gap-3 px-2 pb-4 pt-3 ` +
-            'max-md:min-h-0 max-md:justify-center max-md:mt-0'
+            'flex min-h-0 w-[4.5rem] shrink-0 flex-col items-center bg-brand-700 py-4 px-2 ' +
+            'max-md:w-full max-md:flex-none max-md:flex-row max-md:justify-center max-md:gap-4 max-md:p-3'
           }
         >
-          {SHELL_STRIP_TOP.map((action) => (
-            <StripIconButton key={action.id} action={action} />
-          ))}
-        </div>
-        <div
-          className={
-            `${pillBaseClassName} mt-auto flex-none gap-2.5 px-2 pb-3.5 pt-3 ` +
-            'max-md:mt-0 max-md:flex-wrap max-md:justify-center'
-          }
-        >
-          {SHELL_STRIP_BOTTOM.map((action) => (
-            <StripIconButton key={action.id} action={action} />
-          ))}
-        </div>
-      </div>
-
-      <nav
-        className={
-          'flex min-h-0 w-[17.5rem] min-w-[17.5rem] max-w-[17.5rem] flex-1 flex-col overflow-y-auto ' +
-          'border-r border-nav-border bg-white py-6 pl-3 pr-0 ' +
-          'max-md:max-w-none max-md:min-w-0 max-md:w-full max-md:border-b max-md:border-r-0'
-        }
-      >
-        {SHELL_NAV_SECTIONS.map((section) => (
-          <section
-            key={section.id}
-            className='mb-6 last:mb-0'
-            aria-labelledby={`nav-${section.id}`}
+          <div
+            className={
+              `${pillBaseClassName} min-h-[5rem] flex-1 justify-start gap-3 px-2 pb-4 pt-3 ` +
+              'max-md:min-h-0 max-md:justify-center max-md:mt-0'
+            }
           >
-            <h2
-              id={`nav-${section.id}`}
-              className='mb-2.5 ml-2 text-[0.6875rem] font-semibold uppercase tracking-wide text-fg-section'
+            {SHELL_STRIP_TOP.map((action) => (
+              <StripIconButton key={action.id} action={action} />
+            ))}
+          </div>
+          <div
+            className={
+              `${pillBaseClassName} mt-auto flex-none gap-2.5 px-2 pb-3.5 pt-3 ` +
+              'max-md:mt-0 max-md:flex-wrap max-md:justify-center'
+            }
+          >
+            {SHELL_STRIP_BOTTOM.map((action) => (
+              <StripIconButton key={action.id} action={action} />
+            ))}
+          </div>
+        </div>
+
+        <nav
+          className={
+            'flex min-h-0 w-[17.5rem] min-w-[17.5rem] max-w-[17.5rem] flex-1 flex-col overflow-y-auto ' +
+            'border-r border-nav-border bg-white py-6 pl-3 pr-0 ' +
+            'max-md:max-w-none max-md:min-w-0 max-md:w-full max-md:border-b max-md:border-r-0'
+          }
+        >
+          {SHELL_NAV_SECTIONS.map((section) => (
+            <section
+              key={section.id}
+              className='mb-6 last:mb-0'
+              aria-labelledby={`nav-${section.id}`}
             >
-              {section.title}
-            </h2>
-            <ul className='m-0 flex list-none flex-col gap-1 p-0'>
-              {section.items.map((item) => (
-                <NavRow
-                  key={item.id}
-                  item={item}
-                  active={item.id === activeId}
-                  onSelect={handleSelect}
-                />
-              ))}
-            </ul>
-          </section>
-        ))}
-      </nav>
+              <h2
+                id={`nav-${section.id}`}
+                className='mb-2.5 ml-2 text-[0.6875rem] font-semibold uppercase tracking-wide text-fg-section'
+              >
+                {section.title}
+              </h2>
+              <ul className='m-0 flex list-none flex-col gap-1 p-0'>
+                {section.items.map((item) => (
+                  <NavRow
+                    key={item.id}
+                    item={item}
+                    active={item.id === activeId}
+                    onSelect={handleSelect}
+                  />
+                ))}
+              </ul>
+            </section>
+          ))}
+        </nav>
+      </div>
     </aside>
   );
 };

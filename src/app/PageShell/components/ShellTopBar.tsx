@@ -41,7 +41,10 @@ export const ShellTopBar: React.FC<ShellTopBarProps> = ({
   versionLabel = 'v. 1.0.0',
 }) => {
   return (
-    <header className='flex min-h-[4.5rem] shrink-0 items-center gap-4 bg-brand-700 px-5 py-3 text-on-brand'>
+    <div
+      className='flex min-h-[4.5rem] shrink-0 items-center gap-4 bg-brand-700 px-5 py-3 text-on-brand'
+      aria-label='Synapse medical system'
+    >
       <SynapseLogoMark />
       <div className='flex min-w-0 flex-col gap-0.5'>
         <div className='flex flex-wrap items-baseline gap-x-3 gap-y-2'>
@@ -54,6 +57,6 @@ export const ShellTopBar: React.FC<ShellTopBarProps> = ({
         </div>
         <p className='m-0 text-[0.8125rem] font-medium text-fg-subtitle'>{clinicLabel}</p>
       </div>
-    </header>
+    </div>
   );
 };

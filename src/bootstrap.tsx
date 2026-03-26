@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 
 import { App } from './app/App';
 import { ShellProviders } from './app/providers/ShellProviders';
-import './styles/global.css';
+import './global.css';
 
 const rootEl = document.getElementById('root');
 if (rootEl) {

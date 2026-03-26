@@ -1,2 +1,2 @@
 import('./bootstrap');
-export * from './ui/tokens';
+export * from './shared/tokens';

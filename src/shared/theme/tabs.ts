@@ -3,7 +3,7 @@ import { radii } from '../tokens/radii';
 
 import type { ComponentStyleConfig } from '@chakra-ui/react';
 
-export const Tabs: ComponentStyleConfig = {
+export const tabsTheme: ComponentStyleConfig = {
   variants: {
     pill: {
       tablist: {

@@ -5,7 +5,7 @@ export default createModuleFederationConfig({
   exposes: {
     './providers': './src/app/providers/ShellProviders.tsx',
     // './theme': './src/theme/index.ts',
-    './ui': './src/ui/index.ts',
+    './shared': './src/shared/index.ts',
   },
   shared: {
     react: { singleton: true, eager: true },

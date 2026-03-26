@@ -1,4 +1,8 @@
-import { Avatar, Badge, Button, Card, IconButton, Input, Table, Tabs } from './';
+import { buttonTheme } from './button';
+import { cardTheme } from './card';
+import { iconButtonTheme } from './iconButton';
+import { tableTheme } from './table';
+import { tabsTheme } from './tabs';
 import { colors } from '../tokens/colors';
 import { radii } from '../tokens/radii';
 import { semantic } from '../tokens/semantic';
@@ -70,14 +74,11 @@ export const synapseTheme = extendTheme({
     },
   },
   components: {
-    Button,
-    IconButton,
-    Input,
-    Tabs,
-    Table,
-    Badge,
-    Card,
-    Avatar,
+    Button: buttonTheme,
+    IconButton: iconButtonTheme,
+    Tabs: tabsTheme,
+    Table: tableTheme,
+    Card: cardTheme,
   },
 });
 

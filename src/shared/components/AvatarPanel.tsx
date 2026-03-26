@@ -1,6 +1,7 @@
 import type * as React from 'react';
 
-import { radii } from 'ui/tokens';
+import { radii } from '../tokens';
+import { colors } from '../tokens/colors';
 
 import { Avatar, type AvatarProps, Box } from '@chakra-ui/react';
 
@@ -21,7 +22,13 @@ export const AvatarPanel: React.FC<AvatarPanelProps> = ({
       bg={framed ? 'bg.surface' : 'transparent'}
       boxShadow={framed ? 'md' : undefined}
     >
-      <Avatar borderRadius={borderRadius} {...rest} />
+      <Avatar
+        borderRadius={borderRadius}
+        borderWidth='3px'
+        borderColor={colors.app.surface}
+        boxShadow='0 2px 8px rgba(26, 54, 93, 0.12)'
+        {...rest}
+      />
     </Box>
   );
 };

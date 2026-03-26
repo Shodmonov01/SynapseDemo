@@ -1,8 +1,7 @@
 import * as React from 'react';
 
-import { radii } from 'ui/tokens';
-
 import type { AppTableColumn } from './AppTable';
+import { radii } from '../tokens/radii';
 
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import {

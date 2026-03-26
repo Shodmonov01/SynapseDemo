@@ -2,7 +2,7 @@ import { radii } from '../tokens/radii';
 
 import type { ComponentStyleConfig } from '@chakra-ui/react';
 
-export const IconButton: ComponentStyleConfig = {
+export const iconButtonTheme: ComponentStyleConfig = {
   baseStyle: {
     borderRadius: radii.pill,
   },

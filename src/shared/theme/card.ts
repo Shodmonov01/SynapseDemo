@@ -4,7 +4,7 @@ import { shadows } from '../tokens/shadows';
 
 import type { ComponentStyleConfig } from '@chakra-ui/react';
 
-export const Card: ComponentStyleConfig = {
+export const cardTheme: ComponentStyleConfig = {
   baseStyle: {
     container: {
       borderRadius: radii['2xl'],

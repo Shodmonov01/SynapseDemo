@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import { synapseTheme } from './chakra/theme';
+import { synapseTheme } from './theme/synapseTheme';
 
 import { ChakraProvider } from '@chakra-ui/react';
 
