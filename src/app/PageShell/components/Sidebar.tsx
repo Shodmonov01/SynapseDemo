@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { IconButton } from '@chakra-ui/react';
+
 import { ShellTopBar } from './ShellTopBar';
 import { SHELL_NAV_SECTIONS, SHELL_STRIP_BOTTOM, SHELL_STRIP_TOP } from '../constants';
 import type { ShellNavItem, ShellStripAction } from '../types';
@@ -52,6 +54,49 @@ const StripIconButton: React.FC<{
     >
       <IconComponent />
     </button>
+  );
+};
+
+/** Кнопки верхней полосы: стили из `shared/theme/iconButton` (variant toolbar, size md). */
+const StripTopIconButton: React.FC<{
+  action: ShellStripAction;
+  onActivate?: (id: string) => void;
+}> = ({ action, onActivate }) => {
+  const IconComponent = action.icon;
+  const handleClick = React.useCallback(() => {
+    if (action.isDisabled) {
+      return;
+    }
+    onActivate?.(action.id);
+  }, [action.id, action.isDisabled, onActivate]);
+
+  if (action.href && !action.isDisabled) {
+    return (
+      <IconButton
+        as='a'
+        href={action.href}
+        aria-label={action.label}
+        title={action.label}
+        variant='solid'
+        size='md'
+        color='white'
+        icon={<IconComponent />}
+      />
+    );
+  }
+
+  return (
+    <IconButton
+      type='button'
+      aria-label={action.label}
+      title={action.label}
+      isDisabled={Boolean(action.isDisabled)}
+      variant='solid'
+      size='md'
+      color='white'
+      icon={<IconComponent />}
+      onClick={handleClick}
+    />
   );
 };
 
@@ -142,7 +187,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeId, onNavigate }) => {
       <div className='flex min-h-0 flex-1 flex-row items-stretch max-md:flex-col'>
         <div
           className={
-            'flex min-h-0 w-[4.5rem] shrink-0 flex-col items-center bg-brand-700 py-4 px-2 ' +
+            'flex min-h-0 w-[4.5rem] shrink-0 flex-col items-center py-4 px-2 ' +
             'max-md:w-full max-md:flex-none max-md:flex-row max-md:justify-center max-md:gap-4 max-md:p-3'
           }
         >
@@ -153,7 +198,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeId, onNavigate }) => {
             }
           >
             {SHELL_STRIP_TOP.map((action) => (
-              <StripIconButton key={action.id} action={action} />
+              <StripTopIconButton key={action.id} action={action} />
             ))}
           </div>
           <div
