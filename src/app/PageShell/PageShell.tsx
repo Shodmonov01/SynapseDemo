@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useOutlet } from 'react-router-dom';
 
 import { BellIcon, SearchIcon, SettingsIcon } from '@chakra-ui/icons';
 import { Avatar, Box, Button, Flex, IconButton, Text } from '@chakra-ui/react';
@@ -131,6 +132,7 @@ const PageShellHeaderTrailing: React.FC = () => (
 
 export const PageShell: React.FC = () => {
   const [activeId, setActiveId] = React.useState(SHELL_NAV_DEFAULT_ID);
+  const outlet = useOutlet();
 
   return (
     <Flex align='stretch' minH='100vh' w='full'>
@@ -148,9 +150,11 @@ export const PageShell: React.FC = () => {
         <Header title={SHELL_NAV_TITLE[activeId] ?? 'Раздел'} trailing={<PageShellHeaderTrailing />} />
         <Box as='main' flex='1' overflow='auto' bg='bg.app' minH={0}>
           <Box p={{ base: 4, md: 8 }} maxW='1200px'>
-            <Text color='fg.muted' fontSize='sm'>
-              Контент
-            </Text>
+            {outlet ?? (
+              <Text color='fg.muted' fontSize='sm'>
+                Контент
+              </Text>
+            )}
           </Box>
         </Box>
       </Flex>
