@@ -7,14 +7,9 @@ export interface HeaderProps {
   description?: React.ReactNode;
   leading?: React.ReactNode;
   trailing?: React.ReactNode;
-  /** Высота полосы по макету Header (Figma): 70px */
   height?: string;
 }
 
-/**
- * Верхняя панель по макету Figma (Header, узел 681:17265): белая карточка 70px, radius 24px,
- * заголовок слева (x=32), справа через Spacer — кнопка «Добавить пациента», поиск 218px, действия.
- */
 export const Header: React.FC<HeaderProps> = ({
   title,
   description,

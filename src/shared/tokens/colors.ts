@@ -46,6 +46,7 @@ export const colors = {
     shellStripMutedBg: 'rgba(174, 184, 213, 0.37)',
     shellStripMutedHover: 'rgba(174, 184, 213, 0.5)',
     shellStripMutedActive: 'rgba(174, 184, 213, 0.6)',
+    test: 'rgba(255, 0, 0, 0.6)',
   },
   status: {
     urgent: {

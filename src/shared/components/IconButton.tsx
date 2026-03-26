@@ -5,12 +5,9 @@ import {
   type IconButtonProps as ChakraIconButtonProps,
 } from '@chakra-ui/react';
 
-/** Варианты темы `button` для полосы сайдбара: `shellLavender`, `shellMuted`. */
-export type IconButtonVariant = 'shellLavender' | 'shellMuted';
+export type IconButtonVariant = NonNullable<ChakraIconButtonProps['variant']>;
 
-export interface IconButtonProps extends Omit<ChakraIconButtonProps, 'variant'> {
-  variant?: IconButtonVariant;
-  /** При `href` и `!isDisabled` рендерится как ссылка */
+export interface IconButtonProps extends ChakraIconButtonProps {
   href?: string;
 }
 
@@ -27,7 +24,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
 
   return (
     <ChakraIconButton
-      variant={variant as ChakraIconButtonProps['variant']}
+      variant={variant}
       size={size}
       {...rest}
       sx={sx}

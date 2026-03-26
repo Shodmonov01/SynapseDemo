@@ -3,7 +3,6 @@ import * as React from 'react';
 import { IconButton, type IconButtonProps } from '@chakra-ui/react';
 
 export interface ActionIconButtonProps extends IconButtonProps {
-  /** Пресет для иконок на тёмном toolbar */
   toolbar?: boolean;
 }
 

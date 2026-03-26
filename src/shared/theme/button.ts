@@ -1,6 +1,7 @@
 import { colors } from '../tokens/colors';
 import { radii } from '../tokens/radii';
 
+import { Button as chakraDefaultButton } from '@chakra-ui/theme/components';
 import type { ComponentStyleConfig } from '@chakra-ui/react';
 
 /** IconButton рендерится как Button — варианты должны быть здесь, не в отдельном IconButton-теме. */
@@ -9,15 +10,18 @@ const iconChildAlign = {
 };
 
 export const buttonTheme: ComponentStyleConfig = {
+  ...chakraDefaultButton,
   baseStyle: {
+    ...chakraDefaultButton.baseStyle,
     fontWeight: 'semibold',
     borderRadius: radii.xl,
   },
   variants: {
+    ...chakraDefaultButton.variants,
     /** Верхняя полоса сайдбара (shared IconButton) */
     shellLavender: {
       bg: colors.app.shellStripIconBg,
-      color: colors.app.shellStripIconFg,
+      color: colors.app.surface,
       _hover: { bg: colors.app.shellStripIconHover },
       _active: { bg: colors.app.shellStripIconActive },
       borderRadius: 'full',
@@ -41,6 +45,7 @@ export const buttonTheme: ComponentStyleConfig = {
     },
   },
   sizes: {
+    ...chakraDefaultButton.sizes,
     /** 36×36 для полосы сайдбара */
     strip: {
       minW: 9,
@@ -49,6 +54,7 @@ export const buttonTheme: ComponentStyleConfig = {
     },
   },
   defaultProps: {
+    ...chakraDefaultButton.defaultProps,
     colorScheme: 'brand',
     variant: 'solid',
   },

@@ -6,7 +6,6 @@ import { colors } from '../tokens/colors';
 import { Avatar, type AvatarProps, Box } from '@chakra-ui/react';
 
 export interface AvatarPanelProps extends AvatarProps {
-  /** Обводка «рамка» как в дизайне */
   framed?: boolean;
 }
 

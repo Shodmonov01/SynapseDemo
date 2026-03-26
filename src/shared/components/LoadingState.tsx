@@ -4,7 +4,6 @@ import { Center, Spinner, Text, VStack } from '@chakra-ui/react';
 
 export interface LoadingStateProps {
   label?: string;
-  /** Chakra Spinner size */
   spinnerSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 

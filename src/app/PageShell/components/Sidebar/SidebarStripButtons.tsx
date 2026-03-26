@@ -4,6 +4,7 @@ import { IconButton } from 'shared';
 
 import { useShellStripAction } from './useShellStripAction';
 import type { ShellStripAction } from '../../types';
+// import { colors } from 'shared/tokens';
 
 
 
@@ -17,6 +18,8 @@ export const SidebarStripTopIconButton: React.FC<{
   return (
     <IconButton
       aria-label={action.label}
+      variant='shellLavender'
+      // color={colors.app.test}
       title={action.label}
       icon={<IconComponent />}
       href={action.href && !action.isDisabled ? action.href : undefined}
