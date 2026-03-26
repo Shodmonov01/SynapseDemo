@@ -3,7 +3,7 @@ import * as React from 'react';
 import { SidebarNav } from './SidebarNav';
 import { SidebarStrip } from './SidebarStrip';
 import type { ShellNavItem } from '../../types';
-import { ShellTopBar } from '../ShellTopBar';
+import { ShellTopBar } from './ShellTopBar';
 
 export interface SidebarProps {
   activeId: string;
