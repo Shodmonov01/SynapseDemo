@@ -1,21 +1,26 @@
 import * as React from 'react';
 
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Spacer, Text } from '@chakra-ui/react';
 
 export interface HeaderProps {
   title?: React.ReactNode;
   description?: React.ReactNode;
   leading?: React.ReactNode;
   trailing?: React.ReactNode;
+  /** Высота полосы по макету Header (Figma): 70px */
   height?: string;
 }
 
+/**
+ * Верхняя панель по макету Figma (Header, узел 681:17265): белая карточка 70px, radius 24px,
+ * заголовок слева (x=32), справа через Spacer — кнопка «Добавить пациента», поиск 218px, действия.
+ */
 export const Header: React.FC<HeaderProps> = ({
   title,
   description,
   leading,
   trailing,
-  height = '64px',
+  height = '70px',
 }) => {
   const left = React.useMemo(() => {
     if (leading) {
@@ -27,7 +32,14 @@ export const Header: React.FC<HeaderProps> = ({
     return (
       <Box minW={0}>
         {title ? (
-          <Heading as='h1' size='md' color='brand.700' noOfLines={1}>
+          <Heading
+            as='h1'
+            fontSize='lg'
+            fontWeight='semibold'
+            lineHeight='1.22'
+            color='#1C2B53'
+            noOfLines={1}
+          >
             {title}
           </Heading>
         ) : null}
@@ -44,26 +56,24 @@ export const Header: React.FC<HeaderProps> = ({
     <Flex
       as='header'
       align='center'
-      justify='space-between'
-      gap={4}
       flexWrap='wrap'
+      rowGap={3}
+      columnGap={4}
       minH={height}
-      px={{ base: 4, md: 8 }}
-      py={3}
-      borderBottomWidth='1px'
-      borderColor='border.subtle'
-      bg='bg.surface'
-      position='sticky'
-      top={0}
-      zIndex={10}
+      px={8}
+      py={0}
+      borderRadius='24px'
+      bg='white'
+      boxShadow='none'
     >
-      <Box flex='1' minW={0}>
+      <Box flexShrink={0} minW={0} pt={0.5}>
         {left}
       </Box>
+      <Spacer flex={1} minW={0} />
       {trailing ? (
-        <Flex align='center' gap={2} flexShrink={0}>
+        <Box flexShrink={0} minW={0}>
           {trailing}
-        </Flex>
+        </Box>
       ) : null}
     </Flex>
   );

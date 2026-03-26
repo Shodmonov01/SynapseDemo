@@ -1,4 +1,3 @@
-import { Icon } from '@chakra-ui/react';
 import type * as React from 'react';
 import { IconLogo } from 'shared/icons';
 
@@ -7,26 +6,29 @@ export interface ShellTopBarProps {
   versionLabel?: string;
 }
 
+/** Шапка сайдбара по макету Figma (Frame 159): 90px, фон #223B77, логотип 90×90. */
 export const ShellTopBar: React.FC<ShellTopBarProps> = ({
   clinicLabel = 'Клиника',
   versionLabel = 'v. 1.0.0',
 }) => {
   return (
     <div
-      className='flex min-h-[4.5rem] shrink-0 items-center gap-4 bg-brand-700 px-5  text-on-brand'
+      className='flex h-[5.625rem] min-h-[5.625rem] shrink-0 items-center gap-2 bg-[#223B77] pl-[10px] pr-5 text-on-brand'
       aria-label='Synapse medical system'
     >
-      <Icon as={IconLogo} boxSize='14px'/>
-      <div className='flex min-w-0 flex-col gap-0.5'>
-        <div className='flex flex-wrap items-baseline gap-x-3 gap-y-2'>
-          <h1 className='m-0 text-lg font-semibold tracking-tight'>
+      <div className='flex size-[5.625rem] shrink-0 items-center justify-center overflow-hidden'>
+        <span className='flex size-full items-center justify-center text-on-brand [&_svg]:max-h-full [&_svg]:max-w-full [&_svg]:h-auto [&_svg]:w-auto'>
+          <IconLogo />
+        </span>
+      </div>
+      <div className='flex min-w-0 flex-col gap-[5px] pt-0.5'>
+        <div className='flex max-w-[18.1875rem] flex-wrap items-baseline gap-x-[5px] gap-y-1'>
+          <h1 className='m-0 text-xl font-normal leading-[1.22] tracking-tight'>
             Synapse medical system
           </h1>
-          <span className='text-[0.8125rem] font-medium text-fg-section'>
-            {versionLabel}
-          </span>
+          <span className='text-[9px] font-normal leading-[1.22] text-[#969CC0]'>{versionLabel}</span>
         </div>
-        <p className='m-0 text-[0.8125rem] font-medium text-fg-subtitle'>{clinicLabel}</p>
+        <p className='m-0 text-sm font-normal leading-[1.22] text-[#969CC0]'>{clinicLabel}</p>
       </div>
     </div>
   );

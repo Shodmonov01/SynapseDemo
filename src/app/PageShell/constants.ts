@@ -1,16 +1,15 @@
 import {
-  IconAmbulance,
-  IconBook,
-  IconChatBubble,
-  IconDocumentArrow,
-  IconEmrCard,
-  IconGear,
-  IconHeadset,
-  IconMegaphone,
-  IconPeopleQueue,
-  IconProfile,
-  IconShieldPin,
-} from './icons/ShellMenuIcons';
+  IconArchiveBook,
+  IconCards,
+  IconDocumentForward,
+  IconMessages,
+  IconPin,
+  IconSecurity,
+  IconSetting,
+  IconSupport,
+  IconTruck,
+  IconUsers,
+} from 'shared/icons';
 import type { ShellNavSection, ShellStripAction } from './types';
 
 export const SHELL_NAV_DEFAULT_ID = 'emk';
@@ -20,30 +19,30 @@ export const SHELL_NAV_SECTIONS: ShellNavSection[] = [
     id: 'registry-ambulatory',
     title: 'Регистратура амбулатория',
     items: [
-      { id: 'visits', label: 'Визиты', icon: IconDocumentArrow },
-      { id: 'e-queue', label: 'Электронная очередь', icon: IconPeopleQueue },
-      { id: 'emk-base', label: 'База ЭМК', icon: IconEmrCard },
-      { id: 'doctor-outings', label: 'Выезды врачей', icon: IconAmbulance },
-      { id: 'lab-outings', label: 'Выезды лабораторий', icon: IconAmbulance },
+      { id: 'visits', label: 'Визиты', icon: IconDocumentForward },
+      { id: 'e-queue', label: 'Электронная очередь', icon: IconCards },
+      { id: 'emk-base', label: 'База ЭМК', icon: IconArchiveBook },
+      { id: 'doctor-outings', label: 'Выезды врачей', icon: IconTruck },
+      { id: 'lab-outings', label: 'Выезды лабороторий', icon: IconTruck },
     ],
   },
   {
     id: 'workspace',
     title: 'Текущая рабочая область',
-    items: [{ id: 'emk', label: 'ЭМК', icon: IconMegaphone }],
+    items: [{ id: 'emk', label: 'ЭМК', icon: IconPin }],
   },
 ];
 
 export const SHELL_STRIP_TOP: ShellStripAction[] = [
-  { id: 'profile', label: 'Профиль', icon: IconProfile },
+  { id: 'profile', label: 'Профиль', icon: IconUsers },
 ];
 
 export const SHELL_STRIP_BOTTOM: ShellStripAction[] = [
-  { id: 'chat', label: 'Сообщения', icon: IconChatBubble },
-  { id: 'settings', label: 'Настройки', icon: IconGear },
-  { id: 'support', label: 'Поддержка', icon: IconHeadset },
-  { id: 'security', label: 'Безопасность и доступ', icon: IconShieldPin },
-  { id: 'manuals', label: 'Справочники и инструкции', icon: IconBook },
+  { id: 'chat', label: 'Сообщения', icon: IconMessages },
+  { id: 'settings', label: 'Настройки', icon: IconSetting },
+  { id: 'support', label: 'Поддержка', icon: IconSupport },
+  { id: 'security', label: 'Безопасность и доступ', icon: IconSecurity },
+  { id: 'manuals', label: 'Справочники и инструкции', icon: IconArchiveBook },
 ];
 
 const titleFromSections = (): Record<string, string> => {
