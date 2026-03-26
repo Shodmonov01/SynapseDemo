@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { colors } from 'shared/tokens/colors';
-
 import type { ShellNavItem } from '../../types';
+
+import { colors } from 'shared/tokens/colors';
 
 export interface SidebarNavRowProps {
   item: ShellNavItem;
@@ -10,7 +10,11 @@ export interface SidebarNavRowProps {
   onSelect: (item: ShellNavItem) => void;
 }
 
-export const SidebarNavRow: React.FC<SidebarNavRowProps> = ({ item, active, onSelect }) => {
+export const SidebarNavRow: React.FC<SidebarNavRowProps> = ({
+  item,
+  active,
+  onSelect,
+}) => {
   const IconComponent = item.icon;
   const handleClick = React.useCallback(() => {
     onSelect(item);

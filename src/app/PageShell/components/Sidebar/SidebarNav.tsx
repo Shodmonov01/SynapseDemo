@@ -1,9 +1,8 @@
-import * as React from 'react';
-
-import { SHELL_NAV_SECTIONS } from '../../constants';
-import type { ShellNavItem } from '../../types';
+import type * as React from 'react';
 
 import { SidebarNavRow } from './SidebarNavRow';
+import { SHELL_NAV_SECTIONS } from '../../constants';
+import type { ShellNavItem } from '../../types';
 
 export interface SidebarNavProps {
   activeId: string;

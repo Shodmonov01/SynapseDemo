@@ -1,12 +1,10 @@
-import * as React from 'react';
-
-import { IconButton } from 'shared';
+import type * as React from 'react';
 
 import { useShellStripAction } from './useShellStripAction';
 import type { ShellStripAction } from '../../types';
+
+import { IconButton } from 'shared';
 // import { colors } from 'shared/tokens';
-
-
 
 export const SidebarStripTopIconButton: React.FC<{
   action: ShellStripAction;

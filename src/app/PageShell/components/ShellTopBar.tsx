@@ -1,6 +1,7 @@
 import type * as React from 'react';
-import { colors } from 'shared/tokens/colors';
+
 import { IconLogo } from 'shared/icons';
+import { colors } from 'shared/tokens/colors';
 
 export interface ShellTopBarProps {
   clinicLabel?: string;
@@ -27,9 +28,13 @@ export const ShellTopBar: React.FC<ShellTopBarProps> = ({
           <h1 className='m-0 text-xl font-normal leading-[1.22] tracking-tight'>
             Synapse medical system
           </h1>
-          <span className='text-[9px] font-normal leading-[1.22] text-[#969CC0]'>{versionLabel}</span>
+          <span className='text-[9px] font-normal leading-[1.22] text-[#969CC0]'>
+            {versionLabel}
+          </span>
         </div>
-        <p className='m-0 text-sm font-normal leading-[1.22] text-[#969CC0]'>{clinicLabel}</p>
+        <p className='m-0 text-sm font-normal leading-[1.22] text-[#969CC0]'>
+          {clinicLabel}
+        </p>
       </div>
     </div>
   );

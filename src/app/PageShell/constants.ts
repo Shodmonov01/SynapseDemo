@@ -1,3 +1,5 @@
+import type { ShellNavSection, ShellStripAction } from './types';
+
 import {
   IconArchiveBook,
   IconCards,
@@ -10,7 +12,6 @@ import {
   IconTruck,
   IconUsers,
 } from 'shared/icons';
-import type { ShellNavSection, ShellStripAction } from './types';
 
 export const SHELL_NAV_DEFAULT_ID = 'emk';
 

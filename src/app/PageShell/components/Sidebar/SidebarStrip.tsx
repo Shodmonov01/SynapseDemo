@@ -1,9 +1,8 @@
-import * as React from 'react';
-
-import { SHELL_STRIP_BOTTOM, SHELL_STRIP_TOP } from '../../constants';
+import type * as React from 'react';
 
 import { pillBaseClassName } from './sidebarClassNames';
 import { SidebarStripTopIconButton } from './SidebarStripButtons';
+import { SHELL_STRIP_BOTTOM, SHELL_STRIP_TOP } from '../../constants';
 
 export const SidebarStrip: React.FC = () => {
   return (

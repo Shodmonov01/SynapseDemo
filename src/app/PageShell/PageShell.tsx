@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { useOutlet } from 'react-router-dom';
 
+import { Header, Sidebar } from './components';
+import { SHELL_NAV_DEFAULT_ID, SHELL_NAV_TITLE } from './constants';
+
 import { SearchIcon, SettingsIcon } from '@chakra-ui/icons';
 import { Avatar, Box, Button, Flex, IconButton, Text } from '@chakra-ui/react';
 import { SearchInput } from 'shared';
-import { colors } from 'shared/tokens/colors';
 import { IconAddPerson, IconNotification } from 'shared/icons';
-
-import { Header, Sidebar } from './components';
-import { SHELL_NAV_DEFAULT_ID, SHELL_NAV_TITLE } from './constants';
+import { colors } from 'shared/tokens/colors';
 
 const HEADER_PAGE_BG = '#EBEFF9';
 
@@ -115,10 +115,22 @@ const PageShellHeaderTrailing: React.FC = () => (
           bg={HEADER_PAGE_BG}
           minW={0}
         >
-          <Text fontSize='xs' fontWeight='medium' lineHeight='1.22' color='#060A14' noOfLines={1}>
+          <Text
+            fontSize='xs'
+            fontWeight='medium'
+            lineHeight='1.22'
+            color='#060A14'
+            noOfLines={1}
+          >
             Регистратор 1
           </Text>
-          <Text fontSize='8px' fontWeight='normal' lineHeight='1.22' color={colors.app.shellStripIconFg} noOfLines={1}>
+          <Text
+            fontSize='8px'
+            fontWeight='normal'
+            lineHeight='1.22'
+            color={colors.app.shellStripIconFg}
+            noOfLines={1}
+          >
             Регистратор
           </Text>
         </Flex>
@@ -142,15 +154,12 @@ export const PageShell: React.FC = () => {
         px={{ base: 4, md: 10 }}
         gap={4}
       >
-        <Header title={SHELL_NAV_TITLE[activeId] ?? 'Раздел'} trailing={<PageShellHeaderTrailing />} />
-        <Box as='main' flex='1' overflow='auto'  minH={0}>
-          <Box p={{ base: 4, md: 8 }}>
-            {outlet ?? (
-              <Text  fontSize='sm'>
-                Контент
-              </Text>
-            )}
-          </Box>
+        <Header
+          title={SHELL_NAV_TITLE[activeId] ?? 'Раздел'}
+          trailing={<PageShellHeaderTrailing />}
+        />
+        <Box as='main' flex='1' overflow='auto' minH={0}>
+          <Box p={{ base: 4, md: 8 }}>{outlet ?? <Text fontSize='sm'>Контент</Text>}</Box>
         </Box>
       </Flex>
     </Flex>

@@ -1,8 +1,8 @@
 import { colors } from '../tokens/colors';
 import { radii } from '../tokens/radii';
 
-import { Button as chakraDefaultButton } from '@chakra-ui/theme/components';
 import type { ComponentStyleConfig } from '@chakra-ui/react';
+import { Button as chakraDefaultButton } from '@chakra-ui/theme/components';
 
 /** IconButton рендерится как Button — варианты должны быть здесь, не в отдельном IconButton-теме. */
 const iconChildAlign = {
