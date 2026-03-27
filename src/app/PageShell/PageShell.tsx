@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { useNavigate, useOutlet, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, useOutlet } from 'react-router-dom';
+
+import { SHELL_NAV_PATH_BY_ITEM_ID, shellNavIdFromPath } from 'app/router/shellNavPaths';
 
 import { Header, HEADER_PAGE_BG, PageShellHeaderTrailing, Sidebar } from './components';
 import { SHELL_NAV_TITLE } from './constants';
-import {
-  SHELL_NAV_PATH_BY_ITEM_ID,
-  shellNavIdFromPath,
-} from 'app/router/shellNavPaths';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
 

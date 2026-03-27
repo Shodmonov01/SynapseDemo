@@ -74,7 +74,10 @@ const SortableHeader: React.FC<SortableHeaderProps> = ({
   const direction = active ? sort.direction : null;
 
   const handleActivate = React.useCallback(() => {
-    sort.onChange(columnId, sort.columnId === columnId && sort.direction === 'asc' ? 'desc' : 'asc');
+    sort.onChange(
+      columnId,
+      sort.columnId === columnId && sort.direction === 'asc' ? 'desc' : 'asc',
+    );
   }, [columnId, sort]);
 
   const inactiveIconColor = isLightOnBrand ? 'whiteAlpha.500' : 'blackAlpha.400';
@@ -97,7 +100,11 @@ const SortableHeader: React.FC<SortableHeaderProps> = ({
       align='center'
       w='full'
       _hover={{ opacity: 0.92 }}
-      _focusVisible={{ outline: '2px solid', outlineColor: 'whiteAlpha.800', outlineOffset: 2 }}
+      _focusVisible={{
+        outline: '2px solid',
+        outlineColor: 'whiteAlpha.800',
+        outlineOffset: 2,
+      }}
       aria-sort={active ? (direction === 'asc' ? 'ascending' : 'descending') : 'none'}
     >
       <Box as='span' flex='1' minW={0}>

@@ -1,6 +1,6 @@
-import type { StatusTone } from 'shared';
-
 import type { ServiceStatus, VisitStatus, VisitType, VisitUrgency } from '../types/visit';
+
+import type { StatusTone } from 'shared';
 
 export interface StatusMapping {
   label: string;

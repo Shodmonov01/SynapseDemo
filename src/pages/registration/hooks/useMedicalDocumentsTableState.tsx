@@ -1,14 +1,13 @@
 import * as React from 'react';
 
-import { SettingsIcon } from '@chakra-ui/icons';
-import { HStack } from '@chakra-ui/react';
-
-import type { AppTableSortDirection } from 'shared';
-import { ActionIconButton, SearchInput } from 'shared';
-
 import { MOCK_MEDICAL_DOCUMENT_ROWS } from '../mocks/medicalDocuments.mock';
 import type { MedicalDocumentRow } from '../types/medicalDocumentRow';
 import { compareMedicalDocumentRows } from '../utils/medicalDocumentSort';
+
+import { SettingsIcon } from '@chakra-ui/icons';
+import { HStack } from '@chakra-ui/react';
+import type { AppTableSortDirection } from 'shared';
+import { ActionIconButton, SearchInput } from 'shared';
 
 interface MedicalDocumentsTableState {
   /** Конфиг для `AppTable`: колонка, направление, колбэк смены сортировки. */
@@ -31,8 +30,7 @@ interface MedicalDocumentsTableState {
  */
 export function useMedicalDocumentsTableState(): MedicalDocumentsTableState {
   const [sortColumnId, setSortColumnId] = React.useState<string | null>('date');
-  const [sortDirection, setSortDirection] =
-    React.useState<AppTableSortDirection>('desc');
+  const [sortDirection, setSortDirection] = React.useState<AppTableSortDirection>('desc');
   const [selectedKeys, setSelectedKeys] = React.useState<Set<string>>(() => new Set());
 
   const sortConfig = React.useMemo(

@@ -1,12 +1,12 @@
-import * as React from 'react';
+import type * as React from 'react';
+
+import { HEADER_PAGE_BG } from './pageShellHeader.constants';
 
 import { SearchIcon, SettingsIcon } from '@chakra-ui/icons';
 import { Avatar, Box, Button, Flex, IconButton, Text } from '@chakra-ui/react';
 import { SearchInput } from 'shared';
 import { IconAddPerson, IconNotification } from 'shared/icons';
 import { colors } from 'shared/tokens/colors';
-
-import { HEADER_PAGE_BG } from './pageShellHeader.constants';
 
 const headerSearchIcon = <SearchIcon color='#969696' boxSize='17px' />;
 

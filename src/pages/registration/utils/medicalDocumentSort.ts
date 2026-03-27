@@ -1,6 +1,6 @@
-import type { AppTableSortDirection } from 'shared';
-
 import type { MedicalDocumentRow } from '../types/medicalDocumentRow';
+
+import type { AppTableSortDirection } from 'shared';
 
 /**
  * Собирает timestamp из полей `date` + `time` строки для сортировки по дате/времени.
@@ -25,7 +25,9 @@ export function compareMedicalDocumentRows(
     x.localeCompare(y, 'ru', { sensitivity: 'base' }) * sign;
   switch (columnId) {
     case 'date':
-      return (medicalDocumentRowDateTimeValue(a) - medicalDocumentRowDateTimeValue(b)) * sign;
+      return (
+        (medicalDocumentRowDateTimeValue(a) - medicalDocumentRowDateTimeValue(b)) * sign
+      );
     case 'clinic':
       return cmpStr(a.clinic, b.clinic);
     case 'doctor':

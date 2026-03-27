@@ -74,7 +74,11 @@ const ExpandSortableHeader: React.FC<ExpandSortableHeaderProps> = ({
       align='center'
       w='full'
       _hover={{ opacity: 0.92 }}
-      _focusVisible={{ outline: '2px solid', outlineColor: 'whiteAlpha.800', outlineOffset: 2 }}
+      _focusVisible={{
+        outline: '2px solid',
+        outlineColor: 'whiteAlpha.800',
+        outlineOffset: 2,
+      }}
       aria-sort={active ? (direction === 'asc' ? 'ascending' : 'descending') : 'none'}
     >
       <Box as='span' flex='1' minW={0}>
@@ -161,9 +165,8 @@ export function ExpandableTable<Row>({
   return (
     <TableContainer
       bg='bg.surface'
-      borderWidth='1px'
+      borderBottomWidth='1px'
       borderColor='border.subtle'
-      borderTopWidth={0}
       borderBottomRadius={radii.xl}
       overflow='hidden'
     >

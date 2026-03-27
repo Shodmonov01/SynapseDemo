@@ -24,6 +24,7 @@ import {
   StatusBadge,
   TableToolbar,
 } from 'shared';
+import { radii } from 'shared/tokens';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -308,7 +309,7 @@ export const AllVisitsTab: React.FC<AllVisitsTabProps> = ({ loading = false }) =
       <TableToolbar
         title='Список пациентов'
         actions={toolbarActions}
-        borderTopRadius='0'
+        borderTopRadius={radii.xl}
       />
       {loading ? (
         <LoadingState label='Загрузка визитов…' />

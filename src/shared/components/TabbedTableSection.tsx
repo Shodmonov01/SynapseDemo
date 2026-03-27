@@ -34,72 +34,56 @@ export const TabbedTableSection: React.FC<TabbedTableSectionProps> = ({
   toolbarTitle,
   toolbarActions,
   children,
-  cardBorderRadius = '1.875rem',
 }) => {
   const showToolbar =
     toolbarTitle !== undefined && toolbarTitle !== null && toolbarTitle !== '';
 
   return (
-    <VStack
-      align='stretch'
-      spacing={0}
-      bg='bg.surface'
-      borderRadius={cardBorderRadius}
-      overflow='hidden'
-      boxShadow='card'
-    >
-      <Box
-        px={{ base: 3, md: 5 }}
-        py={4}
-        bg='bg.surface'
-        borderBottomWidth='1px'
-        borderColor='border.subtle'
+    <>
+      <HStack
+        as='div'
+        role='tablist'
+        aria-orientation='horizontal'
+        spacing={2}
+        flexWrap='wrap'
+        rowGap={2}
       >
-        <HStack
-          as='div'
-          role='tablist'
-          aria-orientation='horizontal'
-          spacing={2}
-          flexWrap='wrap'
-          rowGap={2}
-        >
-          {tabs.map((tab) => {
-            const selected = tab.id === activeTabId;
-            return (
-              <Button
-                key={tab.id}
-                type='button'
-                role='tab'
-                aria-selected={selected}
-                isDisabled={tab.isDisabled}
-                onClick={() => {
-                  if (!tab.isDisabled) onTabChange(tab.id);
-                }}
-                variant='unstyled'
-                borderRadius={radii.pill}
-                px={5}
-                py={2}
-                fontWeight='medium'
-                fontSize='sm'
-                flexShrink={0}
-                transition='background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease'
-                bg={selected ? colors.app.surface : colors.app.shellStripIconFg}
-                color={selected ? colors.app.shellPillBorder : colors.app.surface}
-                boxShadow={selected ? 'sm' : 'none'}
-                borderWidth={selected ? '1px' : '0'}
-                borderColor='border.subtle'
-                _hover={{
-                  bg: selected ? colors.app.surface : colors.app.shellNavActiveHover,
-                  color: selected ? colors.neutral[800] : colors.app.surface,
-                }}
-                _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
-              >
-                {tab.label}
-              </Button>
-            );
-          })}
-        </HStack>
-      </Box>
+        {tabs.map((tab) => {
+          const selected = tab.id === activeTabId;
+          return (
+            <Button
+              key={tab.id}
+              type='button'
+              role='tab'
+              aria-selected={selected}
+              isDisabled={tab.isDisabled}
+              onClick={() => {
+                if (!tab.isDisabled) onTabChange(tab.id);
+              }}
+              variant='unstyled'
+              borderRadius={radii.pill}
+              px={5}
+              py={2}
+              fontWeight='medium'
+              fontSize='sm'
+              flexShrink={0}
+              transition='background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease'
+              bg={selected ? colors.app.surface : colors.app.shellStripIconFg}
+              color={selected ? colors.app.shellPillBorder : colors.app.surface}
+              boxShadow={selected ? 'sm' : 'none'}
+              borderWidth={selected ? '1px' : '0'}
+              borderColor='border.subtle'
+              _hover={{
+                bg: selected ? colors.app.surface : colors.app.shellNavActiveHover,
+                color: selected ? colors.neutral[800] : colors.app.surface,
+              }}
+              _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
+            >
+              {tab.label}
+            </Button>
+          );
+        })}
+      </HStack>
 
       <Box pt={4}>
         {showToolbar ? (
@@ -111,6 +95,6 @@ export const TabbedTableSection: React.FC<TabbedTableSectionProps> = ({
         ) : null}
         {children}
       </Box>
-    </VStack>
+    </>
   );
 };

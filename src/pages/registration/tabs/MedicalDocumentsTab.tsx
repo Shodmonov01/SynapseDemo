@@ -1,10 +1,10 @@
-import * as React from 'react';
-
-import { AppTable, TableToolbar } from 'shared';
+import type * as React from 'react';
 
 import { MEDICAL_DOCUMENTS_COLUMNS } from '../columns/medicalDocumentsColumns';
 import { useMedicalDocumentsTableState } from '../hooks/useMedicalDocumentsTableState';
 import type { MedicalDocumentRow } from '../types/medicalDocumentRow';
+
+import { AppTable, TableToolbar } from 'shared';
 
 /**
  * Вкладка «Медицинские документы»: тулбар с заголовком и таблица с чекбоксами и сортировкой.
