@@ -46,7 +46,7 @@ export const PageShell: React.FC = () => {
           trailing={<PageShellHeaderTrailing />}
         />
         <Box as='main' flex='1' overflow='auto' minH={0}>
-          <Box p={{ base: 4, md: 8 }}>{outlet ?? <Text fontSize='sm'>Контент</Text>}</Box>
+          <Box>{outlet ?? <Text fontSize='sm'>Контент</Text>}</Box>
         </Box>
       </Flex>
     </Flex>

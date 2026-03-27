@@ -18,7 +18,11 @@ const config: ThemeConfig = {
 export const synapseTheme = extendTheme({
   config,
   colors: {
-    brand: colors.brand,
+    brand: {
+      ...colors.brand,
+      500: colors.app.shellStripIconFg,
+      600: colors.app.shellNavActiveHover,
+    },
     app: {
       bg: colors.app.background,
       surface: colors.app.surface,

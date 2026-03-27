@@ -14,6 +14,7 @@ import {
   type TableRowProps,
   Tbody,
   Td,
+  Tfoot,
   Th,
   Thead,
   Tr,
@@ -31,9 +32,7 @@ export interface AppTableSelectionState<Row> {
   /** Ключи выбранных строк (как у `getRowKey`) */
   selectedKeys: ReadonlySet<string>;
   onChange: (next: Set<string>) => void;
-  /** Подпись чекбокса «выбрать все» в шапке */
   selectAllAriaLabel?: string;
-  /** Подпись чекбокса строки */
   getRowCheckboxAriaLabel?: (row: Row, index: number) => string;
 }
 
@@ -50,10 +49,12 @@ export interface AppTableProps<Row> extends TableProps {
   getRowKey: (row: Row, index: number) => string;
   variant?: TableProps['variant'];
   rowProps?: (row: Row, index: number) => TableRowProps | undefined;
-  /** Сортировка по клику на шапку колонок с `meta.sortable` */
   sort?: AppTableSortState;
-  /** Чекбоксы выбора строк */
   selection?: AppTableSelectionState<Row>;
+  /** Убрать обводку контейнера — для вложенных таблиц */
+  noBorder?: boolean;
+  /** Содержимое <Tfoot>: один или несколько <Tr> */
+  tfoot?: React.ReactNode;
 }
 
 interface SortableHeaderProps {
@@ -73,11 +74,7 @@ const SortableHeader: React.FC<SortableHeaderProps> = ({
   const direction = active ? sort.direction : null;
 
   const handleActivate = React.useCallback(() => {
-    if (sort.columnId === columnId) {
-      sort.onChange(columnId, sort.direction === 'asc' ? 'desc' : 'asc');
-    } else {
-      sort.onChange(columnId, 'asc');
-    }
+    sort.onChange(columnId, sort.columnId === columnId && sort.direction === 'asc' ? 'desc' : 'asc');
   }, [columnId, sort]);
 
   const inactiveIconColor = isLightOnBrand ? 'whiteAlpha.500' : 'blackAlpha.400';
@@ -101,9 +98,7 @@ const SortableHeader: React.FC<SortableHeaderProps> = ({
       w='full'
       _hover={{ opacity: 0.92 }}
       _focusVisible={{ outline: '2px solid', outlineColor: 'whiteAlpha.800', outlineOffset: 2 }}
-      aria-sort={
-        active ? (direction === 'asc' ? 'ascending' : 'descending') : 'none'
-      }
+      aria-sort={active ? (direction === 'asc' ? 'ascending' : 'descending') : 'none'}
     >
       <Box as='span' flex='1' minW={0}>
         {children}
@@ -125,7 +120,7 @@ const SortableHeader: React.FC<SortableHeaderProps> = ({
       </HStack>
     </HStack>
   );
-}
+};
 
 export function AppTable<Row>({
   columns,
@@ -136,6 +131,8 @@ export function AppTable<Row>({
   size = 'md',
   sort,
   selection,
+  noBorder = false,
+  tfoot,
   ...rest
 }: AppTableProps<Row>): React.ReactElement {
   const rowKeys = React.useMemo(
@@ -161,10 +158,7 @@ export function AppTable<Row>({
   const isSoftOnBrand = variant === 'soft';
 
   const renderHeaderCell = (col: AppTableColumn<Row>) => {
-    const sortable = Boolean(sort && col.meta?.sortable);
-    if (!sortable || !sort) {
-      return col.header;
-    }
+    if (!sort || !col.meta?.sortable) return col.header;
     return (
       <SortableHeader columnId={col.id} sort={sort} isLightOnBrand={isSoftOnBrand}>
         {col.header}
@@ -174,20 +168,16 @@ export function AppTable<Row>({
 
   const toggleAll = React.useCallback(() => {
     if (!selection) return;
-    if (allSelected) {
-      selection.onChange(new Set());
-    } else {
-      selection.onChange(new Set(rowKeys));
-    }
+    selection.onChange(allSelected ? new Set() : new Set(rowKeys));
   }, [selection, allSelected, rowKeys]);
 
   return (
     <TableContainer
-      bg='bg.surface'
-      borderWidth='1px'
-      borderColor='border.subtle'
+      bg={noBorder ? 'transparent' : 'bg.surface'}
+      borderWidth={noBorder ? 0 : '1px'}
+      borderColor={noBorder ? undefined : 'border.subtle'}
       borderTopWidth={0}
-      borderBottomRadius={radii.xl}
+      borderBottomRadius={noBorder ? 0 : radii.xl}
       overflow='hidden'
     >
       <Table variant={variant} size={size} {...rest}>
@@ -199,9 +189,7 @@ export function AppTable<Row>({
                   isChecked={allSelected}
                   isIndeterminate={someSelected}
                   onChange={toggleAll}
-                  aria-label={
-                    selection.selectAllAriaLabel ?? 'Выбрать все строки'
-                  }
+                  aria-label={selection.selectAllAriaLabel ?? 'Выбрать все строки'}
                   colorScheme={isSoftOnBrand ? 'whiteAlpha' : 'brand'}
                   size='md'
                 />
@@ -222,11 +210,8 @@ export function AppTable<Row>({
             const toggleRow = () => {
               if (!selection) return;
               const next = new Set(selection.selectedKeys);
-              if (next.has(key)) {
-                next.delete(key);
-              } else {
-                next.add(key);
-              }
+              if (next.has(key)) next.delete(key);
+              else next.add(key);
               selection.onChange(next);
             };
 
@@ -255,6 +240,7 @@ export function AppTable<Row>({
             );
           })}
         </Tbody>
+        {tfoot ? <Tfoot>{tfoot}</Tfoot> : null}
       </Table>
     </TableContainer>
   );

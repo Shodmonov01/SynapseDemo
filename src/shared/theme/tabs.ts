@@ -18,7 +18,7 @@ export const tabsTheme: ComponentStyleConfig = {
         px: 5,
         py: 2,
         _selected: {
-          bg: colors.brand[500],
+          bg: colors.app.shellStripIconFg,
           color: 'white',
         },
         _hover: {

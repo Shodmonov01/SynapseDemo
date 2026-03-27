@@ -35,8 +35,8 @@ export const SearchInput: React.FC<SearchInputProps> = ({
         borderColor={colors.neutral[200]}
         _hover={{ borderColor: colors.neutral[300] }}
         _focusVisible={{
-          borderColor: colors.brand[400],
-          boxShadow: `0 0 0 1px ${colors.brand[400]}`,
+          borderColor: colors.app.shellStripIconFg,
+          boxShadow: `0 0 0 1px ${colors.app.shellStripIconFg}`,
         }}
         {...rest}
       />

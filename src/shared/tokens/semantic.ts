@@ -7,7 +7,7 @@ export const semantic = {
   bg: {
     app: colors.app.background,
     surface: colors.app.surface,
-    toolbar: colors.brand[500],
+    toolbar: colors.app.shellStripIconFg,
     tableNested: '#EBF4FF',
   },
   fg: {

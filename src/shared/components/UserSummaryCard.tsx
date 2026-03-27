@@ -65,7 +65,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
           <HStack align='flex-start' spacing={6} flexWrap='wrap'>
             <VStack align='flex-start' spacing={4} flex='1' minW='240px'>
               <HStack spacing={3} flexWrap='wrap'>
-                <Box as='h2' fontSize='2xl' fontWeight='bold' color='brand.700'>
+                <Box as='h2' fontSize='2xl' fontWeight='bold' color='brand.500'>
                   {name}
                 </Box>
                 {badgeLabel ? (

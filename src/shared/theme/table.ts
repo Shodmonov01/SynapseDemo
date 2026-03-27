@@ -7,7 +7,7 @@ export const tableTheme: ComponentStyleConfig = {
   variants: {
     soft: {
       th: {
-        bg: colors.brand[500],
+        bg: colors.app.shellStripIconFg,
         color: 'white',
         fontSize: 'xs',
         fontWeight: 'semibold',

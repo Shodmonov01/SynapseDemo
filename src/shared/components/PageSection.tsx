@@ -33,7 +33,7 @@ export const PageSection: React.FC<PageSectionProps> = ({
       >
         <Box>
           {title ? (
-            <Heading size='md' color='brand.700' mb={description ? 1 : 0}>
+            <Heading size='md' color='brand.500' mb={description ? 1 : 0}>
               {title}
             </Heading>
           ) : null}

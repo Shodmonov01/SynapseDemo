@@ -83,14 +83,14 @@ export const TabbedTableSection: React.FC<TabbedTableSectionProps> = ({
                 fontSize='sm'
                 flexShrink={0}
                 transition='background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease'
-                bg={selected ? colors.app.surface : colors.brand[500]}
-                color={selected ? colors.brand[700] : colors.app.surface}
+                bg={selected ? colors.app.surface : colors.app.shellStripIconFg}
+                color={selected ? colors.app.shellPillBorder : colors.app.surface}
                 boxShadow={selected ? 'sm' : 'none'}
                 borderWidth={selected ? '1px' : '0'}
                 borderColor='border.subtle'
                 _hover={{
-                  bg: selected ? colors.app.surface : colors.brand[600],
-                  color: selected ? colors.brand[800] : colors.app.surface,
+                  bg: selected ? colors.app.surface : colors.app.shellNavActiveHover,
+                  color: selected ? colors.neutral[800] : colors.app.surface,
                 }}
                 _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
               >
@@ -101,15 +101,16 @@ export const TabbedTableSection: React.FC<TabbedTableSectionProps> = ({
         </HStack>
       </Box>
 
-      {showToolbar ? (
-        <TableToolbar
-          title={toolbarTitle}
-          actions={toolbarActions}
-          borderTopRadius={radii.none}
-        />
-      ) : null}
-
-      <Box>{children}</Box>
+      <Box pt={4}>
+        {showToolbar ? (
+          <TableToolbar
+            title={toolbarTitle}
+            actions={toolbarActions}
+            borderTopRadius={radii.none}
+          />
+        ) : null}
+        {children}
+      </Box>
     </VStack>
   );
 };
