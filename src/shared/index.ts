@@ -26,6 +26,11 @@ export { StatusBadge } from './components/StatusBadge';
 export type { StatusBadgeProps } from './components/StatusBadge';
 export { TableToolbar } from './components/TableToolbar';
 export type { TableToolbarProps } from './components/TableToolbar';
+export { TabbedTableSection } from './components/TabbedTableSection';
+export type {
+  TabbedTableSectionProps,
+  TabbedTableSectionTab,
+} from './components/TabbedTableSection';
 export { UserSummaryCard } from './components/UserSummaryCard';
 export type {
   UserSummaryCardProps,

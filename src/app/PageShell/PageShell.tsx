@@ -1,18 +1,38 @@
 import * as React from 'react';
-import { useOutlet } from 'react-router-dom';
+import { useNavigate, useOutlet, useLocation } from 'react-router-dom';
 
 import { Header, HEADER_PAGE_BG, PageShellHeaderTrailing, Sidebar } from './components';
-import { SHELL_NAV_DEFAULT_ID, SHELL_NAV_TITLE } from './constants';
+import { SHELL_NAV_TITLE } from './constants';
+import {
+  SHELL_NAV_PATH_BY_ITEM_ID,
+  shellNavIdFromPath,
+} from 'app/router/shellNavPaths';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
 
 export const PageShell: React.FC = () => {
-  const [activeId, setActiveId] = React.useState(SHELL_NAV_DEFAULT_ID);
   const outlet = useOutlet();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const activeId = React.useMemo(
+    () => shellNavIdFromPath(location.pathname),
+    [location.pathname],
+  );
+
+  const handleNavigate = React.useCallback(
+    (id: string) => {
+      const path = SHELL_NAV_PATH_BY_ITEM_ID[id];
+      if (path) {
+        navigate(path);
+      }
+    },
+    [navigate],
+  );
 
   return (
     <Flex align='stretch' minH='100vh' w='full'>
-      <Sidebar activeId={activeId} onNavigate={setActiveId} />
+      <Sidebar activeId={activeId} onNavigate={handleNavigate} />
       <Flex
         direction='column'
         flex='1'
