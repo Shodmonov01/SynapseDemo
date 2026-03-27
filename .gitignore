@@ -9,6 +9,9 @@ lerna-debug.log*
 
 node_modules
 dist
+
+# Module Federation (diagnostics, generated при dev/build)
+.mf/
 dist-ssr
 *.local
 

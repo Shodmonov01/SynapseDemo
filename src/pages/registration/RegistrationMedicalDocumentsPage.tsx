@@ -9,6 +9,8 @@ import {
   ActionIconButton,
   AppTable,
   type AppTableColumn,
+  AppTableRowMenu,
+  type AppTableSortDirection,
   SearchInput,
   TabbedTableSection,
   type TabbedTableSectionTab,
@@ -31,7 +33,6 @@ const MOCK_TABS: TabbedTableSectionTab[] = [
   { id: 'visits', label: 'Все визиты' },
   { id: 'consultation', label: 'Консультация врача' },
   { id: 'instrumental', label: 'Инструментальные иследования' },
-  { id: 'lab', label: 'Лабороторные иследования' },
   { id: 'medical-docs', label: 'Медицинские документы' },
   { id: 'files', label: 'Файлы' },
 ];
@@ -105,17 +106,72 @@ function extensionBadgeProps(ext: string): { colorScheme: string } {
   return { colorScheme: 'green' };
 }
 
+function rowDateTimeValue(row: MedicalDocumentRow): number {
+  const [d, m, y] = row.date.split('.').map(Number);
+  const [hh, mm] = row.time.split(':').map(Number);
+  return new Date(y, m - 1, d, hh, mm).getTime();
+}
+
+function compareMedicalRows(
+  a: MedicalDocumentRow,
+  b: MedicalDocumentRow,
+  columnId: string,
+  direction: AppTableSortDirection,
+): number {
+  const sign = direction === 'asc' ? 1 : -1;
+  const cmpStr = (x: string, y: string) =>
+    x.localeCompare(y, 'ru', { sensitivity: 'base' }) * sign;
+
+  switch (columnId) {
+    case 'date':
+      return (rowDateTimeValue(a) - rowDateTimeValue(b)) * sign;
+    case 'clinic':
+      return cmpStr(a.clinic, b.clinic);
+    case 'doctor':
+      return cmpStr(a.doctorName, b.doctorName);
+    case 'service':
+      return cmpStr(a.service, b.service);
+    default:
+      return 0;
+  }
+}
+
 export const RegistrationMedicalDocumentsPage: React.FC = () => {
   const { pathname } = useLocation();
   const standalone = pathname === URLS.REGISTRATION_MEDICAL_DOCUMENTS;
 
   const [activeTabId, setActiveTabId] = React.useState('medical-docs');
+  const [sortColumnId, setSortColumnId] = React.useState<string | null>('date');
+  const [sortDirection, setSortDirection] = React.useState<AppTableSortDirection>('desc');
+  const [selectedKeys, setSelectedKeys] = React.useState<Set<string>>(() => new Set());
+
+  const sortConfig = React.useMemo(
+    () => ({
+      columnId: sortColumnId,
+      direction: sortDirection,
+      onChange: (columnId: string, direction: AppTableSortDirection) => {
+        setSortColumnId(columnId);
+        setSortDirection(direction);
+      },
+    }),
+    [sortColumnId, sortDirection],
+  );
+
+  const displayRows = React.useMemo(() => {
+    if (!sortColumnId) {
+      return MOCK_ROWS;
+    }
+    return [...MOCK_ROWS].sort((a, b) =>
+      compareMedicalRows(a, b, sortColumnId, sortDirection),
+    );
+  }, [sortColumnId, sortDirection]);
 
   const columns = React.useMemo<AppTableColumn<MedicalDocumentRow>[]>(
     () => [
       {
         id: 'date',
         header: 'Дата',
+        meta: { sortable: true },
         cell: (row) => (
           <VStack align='flex-start' spacing={0}>
             <Text fontSize='sm' fontWeight='medium' color='fg.default'>
@@ -130,11 +186,13 @@ export const RegistrationMedicalDocumentsPage: React.FC = () => {
       {
         id: 'clinic',
         header: 'Клиника',
+        meta: { sortable: true },
         cell: (row) => <Text fontSize='sm'>{row.clinic}</Text>,
       },
       {
         id: 'doctor',
         header: 'Врач',
+        meta: { sortable: true },
         cell: (row) => (
           <VStack align='flex-start' spacing={0}>
             <Text fontSize='sm' fontWeight='medium'>
@@ -161,6 +219,7 @@ export const RegistrationMedicalDocumentsPage: React.FC = () => {
       {
         id: 'service',
         header: 'Услуга',
+        meta: { sortable: true },
         cell: (row) => <Text fontSize='sm'>{row.service}</Text>,
       },
       {
@@ -180,6 +239,29 @@ export const RegistrationMedicalDocumentsPage: React.FC = () => {
             </Badge>
           );
         },
+      },
+      {
+        id: 'rowMenu',
+        header: 'Действия',
+        cell: (row) => (
+          <AppTableRowMenu
+            ariaLabel={`Действия: ${row.doctorName}, ${row.date}`}
+            actions={[
+              {
+                id: 'open',
+                label: 'Открыть',
+                onSelect: () => {
+                  // мок: позже replace на навигацию / API
+                },
+              },
+              {
+                id: 'download',
+                label: 'Скачать',
+                onSelect: () => {},
+              },
+            ]}
+          />
+        ),
       },
     ],
     [],
@@ -210,9 +292,17 @@ export const RegistrationMedicalDocumentsPage: React.FC = () => {
       >
         <AppTable<MedicalDocumentRow>
           columns={columns}
-          rows={MOCK_ROWS}
+          rows={displayRows}
           getRowKey={(row) => row.id}
           variant='soft'
+          sort={sortConfig}
+          selection={{
+            selectedKeys,
+            onChange: setSelectedKeys,
+            selectAllAriaLabel: 'Выбрать все документы в таблице',
+            getRowCheckboxAriaLabel: (row) =>
+              `Выбрать документ от ${row.date} ${row.time}`,
+          }}
         />
       </TabbedTableSection>
     </Container>

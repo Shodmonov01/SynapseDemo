@@ -3,7 +3,18 @@ export type { ActionIconButtonProps } from './components/ActionIconButton';
 export { IconButton } from './components/IconButton';
 export type { IconButtonProps, IconButtonVariant } from './components/IconButton';
 export { AppTable } from './components/AppTable';
-export type { AppTableColumn, AppTableProps } from './components/AppTable';
+export type {
+  AppTableColumn,
+  AppTableProps,
+  AppTableSelectionState,
+  AppTableSortDirection,
+  AppTableSortState,
+} from './components/AppTable';
+export { AppTableRowMenu } from './components/AppTableRowMenu';
+export type {
+  AppTableRowMenuAction,
+  AppTableRowMenuProps,
+} from './components/AppTableRowMenu';
 export { AppTabs } from './components/AppTabs';
 export type { AppTabItem, AppTabsProps } from './components/AppTabs';
 export { AvatarPanel } from './components/AvatarPanel';
