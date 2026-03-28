@@ -1,7 +1,6 @@
 import type * as React from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-
 import { IconButton } from 'shared';
 import { IconLogo } from 'shared/icons';
 import { colors } from 'shared/tokens/colors';

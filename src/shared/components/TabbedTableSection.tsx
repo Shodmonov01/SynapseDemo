@@ -76,28 +76,49 @@ export const TabbedTableSection: React.FC<TabbedTableSectionProps> = ({
   );
 
   return (
-    <>
-      <Tabs index={tabIndex} onChange={handleTabsChange} variant='pill'>
-        <TabList flexWrap='wrap' rowGap={2}>
-          {tabs.map((tab) => (
-            <Tab key={tab.id} isDisabled={tab.isDisabled}>
-              {tab.label}
-            </Tab>
-          ))}
-        </TabList>
-      </Tabs>
+    <Box
+      display='flex'
+      flexDirection='column'
+      flex='1'
+      minH={0}
+      minW={0}
+      w='full'
+    >
+      <Box flexShrink={0}>
+        <Tabs index={tabIndex} onChange={handleTabsChange} variant='pill'>
+          <TabList flexWrap='wrap' rowGap={2}>
+            {tabs.map((tab) => (
+              <Tab key={tab.id} isDisabled={tab.isDisabled}>
+                {tab.label}
+              </Tab>
+            ))}
+          </TabList>
+        </Tabs>
+      </Box>
 
-      <Box pt={4}>
+      <Box
+        pt={4}
+        flex='1'
+        minH={0}
+        minW={0}
+        display='flex'
+        flexDirection='column'
+        overflow='hidden'
+      >
         {showToolbar ? (
-          <TableToolbar
-            title={toolbarTitle}
-            actions={toolbarActions}
-            borderTopRadius={radii.none}
-          />
+          <Box flexShrink={0}>
+            <TableToolbar
+              title={toolbarTitle}
+              actions={toolbarActions}
+              borderTopRadius={radii.none}
+            />
+          </Box>
         ) : null}
 
-        {children}
+        <Box flex='1' minH={0} minW={0} display='flex' flexDirection='column' overflow='hidden'>
+          {children}
+        </Box>
       </Box>
-    </>
+    </Box>
   );
 };

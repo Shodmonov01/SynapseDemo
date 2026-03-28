@@ -64,7 +64,13 @@ export const InfoItem: React.FC<InfoItemProps> = ({
       <VStack align='flex-start' spacing={0.5} w='100%' minW={0}>
         <HStack align='flex-start' spacing={1}>
           {IconComponent ? (
-            <Icon as={IconComponent} boxSize='14px' color={EMK_LABEL} mt='2px' flexShrink={0} />
+            <Icon
+              as={IconComponent}
+              boxSize='14px'
+              color={EMK_LABEL}
+              mt='2px'
+              flexShrink={0}
+            />
           ) : null}
           {labelNode}
         </HStack>

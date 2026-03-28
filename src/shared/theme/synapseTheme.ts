@@ -6,8 +6,8 @@ import { colors } from '../tokens/colors';
 import { radii } from '../tokens/radii';
 import { semantic } from '../tokens/semantic';
 import { shadows } from '../tokens/shadows';
-import { typography } from '../tokens/typography';
 import { sizesPx, spacePx } from '../tokens/spacingPx';
+import { typography } from '../tokens/typography';
 
 import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
 

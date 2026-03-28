@@ -32,7 +32,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside
       className={
-        'flex w-full shrink-0 flex-col bg-white min-h-screen ' +
+        'flex h-full min-h-0 w-full shrink-0 flex-col bg-white ' +
         (collapsed ? 'md:max-w-[154px] ' : 'md:max-w-[300px] ') +
         'max-md:max-w-none max-md:min-h-0 max-md:max-h-none'
       }

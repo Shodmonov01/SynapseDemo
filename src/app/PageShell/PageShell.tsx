@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useOutlet } from 'react-router-dom';
 import { SHELL_NAV_PATH_BY_ITEM_ID, shellNavIdFromPath } from 'app/router/shellNavPaths';
 
 import { Header, HEADER_PAGE_BG, PageShellHeaderTrailing, Sidebar } from './components';
-import { SIDEBAR_COLLAPSED_STORAGE_KEY, SHELL_NAV_TITLE } from './constants';
+import { SHELL_NAV_TITLE, SIDEBAR_COLLAPSED_STORAGE_KEY } from './constants';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
 
@@ -12,9 +12,7 @@ const MD_MIN_WIDTH = '(min-width: 768px)';
 
 function useMediaMinMd(): boolean {
   const [matches, setMatches] = React.useState(() =>
-    typeof window !== 'undefined'
-      ? window.matchMedia(MD_MIN_WIDTH).matches
-      : false,
+    typeof window !== 'undefined' ? window.matchMedia(MD_MIN_WIDTH).matches : false,
   );
 
   React.useEffect(() => {
@@ -79,7 +77,14 @@ export const PageShell: React.FC = () => {
   );
 
   return (
-    <Flex align='stretch' minH='100vh' w='full'>
+    <Flex
+      align='stretch'
+      h='100dvh'
+      maxH='100dvh'
+      minH={0}
+      w='full'
+      overflow='hidden'
+    >
       <Sidebar
         activeId={activeId}
         collapsed={effectiveSidebarCollapsed}
@@ -89,17 +94,39 @@ export const PageShell: React.FC = () => {
       <Flex
         direction='column'
         flex='1'
+        minH={0}
+        minW={0}
+        overflow='hidden'
         bg={HEADER_PAGE_BG}
         pt={3}
         px={{ base: 4, md: 10 }}
         gap={4}
       >
-        <Header
-          title={SHELL_NAV_TITLE[activeId] ?? 'Раздел'}
-          trailing={<PageShellHeaderTrailing />}
-        />
-        <Box as='main' flex='1' overflow='auto' minH={0}>
-          <Box>{outlet ?? <Text fontSize='sm'>Контент</Text>}</Box>
+        <Box flexShrink={0}>
+          <Header
+            title={SHELL_NAV_TITLE[activeId] ?? 'Раздел'}
+            trailing={<PageShellHeaderTrailing />}
+          />
+        </Box>
+        <Box
+          as='main'
+          flex='1'
+          minH={0}
+          minW={0}
+          overflow='hidden'
+          display='flex'
+          flexDirection='column'
+        >
+          <Box
+            flex='1'
+            minH={0}
+            minW={0}
+            display='flex'
+            flexDirection='column'
+            overflow='auto'
+          >
+            {outlet ?? <Text fontSize='sm'>Контент</Text>}
+          </Box>
         </Box>
       </Flex>
     </Flex>

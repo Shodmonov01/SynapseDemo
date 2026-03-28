@@ -33,6 +33,11 @@ export interface ExpandableTableProps<Row> extends TableProps {
   variant?: TableProps['variant'];
   sort?: AppTableSortState;
   selection?: AppTableSelectionState<Row>;
+  /**
+   * В колонке flex с `flex={1} minH={0}`: таблица занимает оставшуюся высоту,
+   * тело прокручивается внутри контейнера, шапка остаётся видимой (sticky).
+   */
+  fillAvailableHeight?: boolean;
 }
 
 interface ExpandSortableHeaderProps {
@@ -111,6 +116,7 @@ export function ExpandableTable<Row>({
   size = 'md',
   sort,
   selection,
+  fillAvailableHeight = false,
   ...rest
 }: ExpandableTableProps<Row>): React.ReactElement {
   const [openKeys, setOpenKeys] = React.useState<ReadonlySet<string>>(() => new Set());
@@ -161,100 +167,128 @@ export function ExpandableTable<Row>({
     );
   };
 
-  return (
+  const tableTree = (
+    <Table variant={variant} size={size} {...rest}>
+      <Thead
+        bg={
+          fillAvailableHeight ? (variant === 'soft' ? '#DADADA' : 'bg.surface') : undefined
+        }
+        sx={
+          fillAvailableHeight
+            ? {
+                position: 'sticky',
+                top: 0,
+                zIndex: 1,
+                boxShadow: '0 1px 0 0 rgba(0, 0, 0, 0.06)',
+              }
+            : undefined
+        }
+      >
+        <Tr>
+          {selection ? (
+            <Th w='48px' px={3} verticalAlign='middle'>
+              <Checkbox
+                isChecked={allSelected}
+                isIndeterminate={someSelected}
+                onChange={toggleAll}
+                aria-label={selection.selectAllAriaLabel ?? 'Выбрать все строки'}
+                colorScheme='whiteAlpha'
+                size='md'
+              />
+            </Th>
+          ) : null}
+          <Th w='48px' px={3} />
+          {columns.map((col) => (
+            <Th key={col.id} isNumeric={col.meta?.isNumeric}>
+              {renderHeaderCell(col)}
+            </Th>
+          ))}
+        </Tr>
+      </Thead>
+      <Tbody>
+        {rows.map((row, index) => {
+          const key = getRowKey(row, index);
+          const expanded = openKeys.has(key);
+          const rowSelected = selectedSet?.has(key) ?? false;
+
+          const toggleRow = () => {
+            if (!selection) return;
+            const next = new Set(selection.selectedKeys);
+            if (next.has(key)) next.delete(key);
+            else next.add(key);
+            selection.onChange(next);
+          };
+
+          return (
+            <React.Fragment key={key}>
+              <Tr>
+                {selection ? (
+                  <Td w='48px' px={3} verticalAlign='middle'>
+                    <Checkbox
+                      isChecked={rowSelected}
+                      onChange={toggleRow}
+                      aria-label={
+                        selection.getRowCheckboxAriaLabel?.(row, index) ??
+                        `Выбрать строку ${key}`
+                      }
+                      colorScheme='brand'
+                      size='md'
+                    />
+                  </Td>
+                ) : null}
+                <Td px={3} verticalAlign='middle'>
+                  <IconButton
+                    aria-label={expanded ? 'Свернуть' : 'Развернуть'}
+                    size='sm'
+                    variant='ghost'
+                    colorScheme='gray'
+                    icon={expanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+                    onClick={() => {
+                      toggle(key);
+                    }}
+                  />
+                </Td>
+                {columns.map((col) => (
+                  <Td key={col.id} isNumeric={col.meta?.isNumeric}>
+                    {col.cell(row)}
+                  </Td>
+                ))}
+              </Tr>
+              <Tr>
+                <Td colSpan={colCount} p={0} border='none'>
+                  <Collapse in={expanded} animateOpacity>
+                    <Box bg='white' px={4} py={4}>
+                      {renderExpanded(row)}
+                    </Box>
+                  </Collapse>
+                </Td>
+              </Tr>
+            </React.Fragment>
+          );
+        })}
+      </Tbody>
+    </Table>
+  );
+
+  const container = (
     <TableContainer
       bg='bg.surface'
       borderBottomWidth='1px'
       borderColor='border.subtle'
       borderBottomRadius={radii.xl}
-      overflow='hidden'
+      overflow={fillAvailableHeight ? 'visible' : 'hidden'}
     >
-      <Table variant={variant} size={size} {...rest}>
-        <Thead>
-          <Tr>
-            {selection ? (
-              <Th w='48px' px={3} verticalAlign='middle'>
-                <Checkbox
-                  isChecked={allSelected}
-                  isIndeterminate={someSelected}
-                  onChange={toggleAll}
-                  aria-label={selection.selectAllAriaLabel ?? 'Выбрать все строки'}
-                  colorScheme='whiteAlpha'
-                  size='md'
-                />
-              </Th>
-            ) : null}
-            <Th w='48px' px={3} />
-            {columns.map((col) => (
-              <Th key={col.id} isNumeric={col.meta?.isNumeric}>
-                {renderHeaderCell(col)}
-              </Th>
-            ))}
-          </Tr>
-        </Thead>
-        <Tbody>
-          {rows.map((row, index) => {
-            const key = getRowKey(row, index);
-            const expanded = openKeys.has(key);
-            const rowSelected = selectedSet?.has(key) ?? false;
-
-            const toggleRow = () => {
-              if (!selection) return;
-              const next = new Set(selection.selectedKeys);
-              if (next.has(key)) next.delete(key);
-              else next.add(key);
-              selection.onChange(next);
-            };
-
-            return (
-              <React.Fragment key={key}>
-                <Tr>
-                  {selection ? (
-                    <Td w='48px' px={3} verticalAlign='middle'>
-                      <Checkbox
-                        isChecked={rowSelected}
-                        onChange={toggleRow}
-                        aria-label={
-                          selection.getRowCheckboxAriaLabel?.(row, index) ??
-                          `Выбрать строку ${key}`
-                        }
-                        colorScheme='brand'
-                        size='md'
-                      />
-                    </Td>
-                  ) : null}
-                  <Td px={3} verticalAlign='middle'>
-                    <IconButton
-                      aria-label={expanded ? 'Свернуть' : 'Развернуть'}
-                      size='sm'
-                      variant='ghost'
-                      colorScheme='gray'
-                      icon={expanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
-                      onClick={() => {
-                        toggle(key);
-                      }}
-                    />
-                  </Td>
-                  {columns.map((col) => (
-                    <Td key={col.id} isNumeric={col.meta?.isNumeric}>
-                      {col.cell(row)}
-                    </Td>
-                  ))}
-                </Tr>
-                <Tr>
-                  <Td colSpan={colCount} p={0} border='none'>
-                    <Collapse in={expanded} animateOpacity>
-                      <Box bg='white' px={4} py={4}>
-                        {renderExpanded(row)}
-                      </Box>
-                    </Collapse>
-                  </Td>
-                </Tr>
-              </React.Fragment>
-            );
-          })}
-        </Tbody>
-      </Table>
+      {tableTree}
     </TableContainer>
   );
+
+  if (fillAvailableHeight) {
+    return (
+      <Box flex={1} minH={0} minW={0} w='full' overflow='auto'>
+        {container}
+      </Box>
+    );
+  }
+
+  return container;
 }

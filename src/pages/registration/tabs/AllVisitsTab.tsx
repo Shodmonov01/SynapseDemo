@@ -10,7 +10,7 @@ import { MOCK_VISITS } from '../mocks/visits.mock';
 import type { Visit, VisitService } from '../types/visit';
 
 import { SettingsIcon } from '@chakra-ui/icons';
-import { HStack, Td, Text, Tr, VStack } from '@chakra-ui/react';
+import { Box, HStack, Td, Text, Tr, VStack } from '@chakra-ui/react';
 import {
   ActionIconButton,
   AppTable,
@@ -305,23 +305,37 @@ export const AllVisitsTab: React.FC<AllVisitsTabProps> = ({ loading = false }) =
 
   // ── Render ───────────────────────────────────────────────────────────────────
   return (
-    <>
-      <TableToolbar
-        title='Список пациентов'
-        actions={toolbarActions}
-        borderTopRadius={radii.xl}
-      />
-      {loading ? (
-        <LoadingState label='Загрузка визитов…' />
-      ) : displayRows.length === 0 ? (
-        <EmptyState
-          title={search ? 'Ничего не найдено' : 'Нет визитов'}
-          description={
-            search ? `По запросу «${search}» ничего не найдено` : 'Список визитов пуст'
-          }
+    <Box
+      display='flex'
+      flexDirection='column'
+      flex='1'
+      minH={0}
+      minW={0}
+      overflow='hidden'
+    >
+      <Box flexShrink={0}>
+        <TableToolbar
+          title='Список пациентов'
+          actions={toolbarActions}
+          borderTopRadius={radii.xl}
         />
+      </Box>
+      {loading ? (
+        <Box flex='1' minH={0}>
+          <LoadingState label='Загрузка визитов…' />
+        </Box>
+      ) : displayRows.length === 0 ? (
+        <Box flex='1' minH={0}>
+          <EmptyState
+            title={search ? 'Ничего не найдено' : 'Нет визитов'}
+            description={
+              search ? `По запросу «${search}» ничего не найдено` : 'Список визитов пуст'
+            }
+          />
+        </Box>
       ) : (
         <ExpandableTable<Visit>
+          fillAvailableHeight
           columns={outerColumns}
           rows={displayRows}
           getRowKey={(v) => v.id}
@@ -336,6 +350,6 @@ export const AllVisitsTab: React.FC<AllVisitsTabProps> = ({ loading = false }) =
           }}
         />
       )}
-    </>
+    </Box>
   );
 };
