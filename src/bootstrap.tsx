@@ -1,5 +1,8 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
+
+import { appRouter } from 'app/router/AppRouter.tsx';
 
 import { App } from './app/App';
 import './global.css';
