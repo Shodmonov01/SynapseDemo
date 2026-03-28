@@ -3,11 +3,11 @@
  */
 export const radii = {
   none: '0',
-  sm: '0.375rem',
-  md: '0.5rem',
-  lg: '0.75rem',
-  xl: '1rem',
-  '2xl': '1.25rem',
+  sm: '6px',
+  md: '8px',
+  lg: '12px',
+  xl: '16px',
+  '2xl': '20px',
   pill: '9999px',
 } as const;
 

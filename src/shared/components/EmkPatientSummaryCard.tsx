@@ -1,41 +1,61 @@
 import * as React from 'react';
 
-import { AvatarPanel } from './AvatarPanel';
 import { InfoItem } from './InfoItem';
-import { StatusBadge } from './StatusBadge';
-import { colors } from '../tokens/colors';
 import { radii } from '../tokens/radii';
 import type { EmkPatientSummary } from '../types/emkPatientSummary';
 
-import {
-  CalendarIcon,
-  EditIcon,
-  InfoOutlineIcon,
-  PhoneIcon,
-  ViewIcon,
-} from '@chakra-ui/icons';
-import {
-  Box,
-  Button,
-  Card,
-  CardBody,
-  Flex,
-  HStack,
-  SimpleGrid,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
+import { CalendarIcon, EditIcon, PhoneIcon, ViewIcon } from '@chakra-ui/icons';
+import { Avatar, Box, Button, Card, Flex, HStack, Text, VStack } from '@chakra-ui/react';
+
+/** Цвета шапки и карточки ЭМК (Figma node 681:14568) */
+const EMK = {
+  headerDefaultFill: '#223B77',
+  headerPillBg: 'rgba(255, 255, 255, 0.23)',
+  fieldLabel: '#7C94D3',
+  patientId: '#425484',
+  careBg: 'rgba(49, 109, 245, 0.13)',
+  careFg: '#316DF5',
+  vipBg: 'rgba(198, 149, 27, 0.13)',
+  vipBorder: '#C6951B',
+  vipFg: '#C6951B',
+  divider: '#57637D',
+  avatarFrameBg: '#EBEFF9',
+  editBg: '#223B77',
+  sheetBg: '#FFFFFF',
+} as const;
+
+const FONT_HEADING = "'Kodchasan', 'Inter', system-ui, sans-serif";
+const FONT_BODY = "'Montserrat', 'Inter', system-ui, sans-serif";
 
 export interface EmkPatientSummaryCardProps {
   patient: EmkPatientSummary;
-  /** Фон верхней полосы (библиотека / декор). Без значения — градиент из токенов бренда */
+  /** Сплошной фон шапки, если нет `headerImageUrl` */
+  headerFill?: string;
+  /** Фон-изображение шапки; если задано — имеет приоритет над `headerFill` */
   headerImageUrl?: string;
+  /** Плашка на шапке */
+  headerCaption?: string;
   onEdit?: () => void;
 }
 
+const FieldDivider: React.FC = () => (
+  <Box
+    display={{ base: 'none', lg: 'block' }}
+    alignSelf='center'
+    w='1px'
+    h='12px'
+    bg={EMK.divider}
+    flexShrink={0}
+    mx={{ lg: 3 }}
+    aria-hidden
+  />
+);
+
 export const EmkPatientSummaryCard: React.FC<EmkPatientSummaryCardProps> = ({
   patient,
+  headerFill = EMK.headerDefaultFill,
   headerImageUrl,
+  headerCaption = 'Медицинская карточка',
   onEdit,
 }) => {
   const headerBg = React.useMemo(() => {
@@ -43,144 +63,260 @@ export const EmkPatientSummaryCard: React.FC<EmkPatientSummaryCardProps> = ({
       return {
         bg: 'bg.surface',
         backgroundImage: `url(${headerImageUrl})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundSize: 'cover' as const,
+        backgroundPosition: 'center' as const,
       };
     }
-    return {
-      bgGradient: 'linear(to-br, brand.50, brand.200, brand.100)',
-    };
-  }, [headerImageUrl]);
-
-  const careTone = patient.careCategoryTone ?? 'info';
+    return { bg: headerFill };
+  }, [headerFill, headerImageUrl]);
 
   const handleEdit = React.useCallback(() => {
     onEdit?.();
   }, [onEdit]);
 
   return (
-    <Card variant='summary' overflow='hidden'>
-      <Box position='relative'>
+    <Card variant='summary' overflow='visible'>
+      <Box position='relative' overflow='visible' bg='unset'>
         <Box
-          h={{ base: '4.5rem', md: '5.5rem' }}
+          h={{ base: '156px', md: '197px' }}
           position='relative'
-          borderTopRadius={radii['2xl']}
+          borderTopLeftRadius='30px'
+          borderTopRightRadius='30px'
           overflow='hidden'
-          {...headerBg}
+          opacity={0.8}
+          sx={headerBg}
         >
           {headerImageUrl ? (
             <Box
               position='absolute'
               inset={0}
-              bg='whiteAlpha.700'
-              backdropFilter='blur(6px)'
+              bg='rgba(50, 98, 229, 0.41)'
+              backdropFilter='blur(2px)'
             />
           ) : null}
+          <Box
+            position='absolute'
+            left={{ base: '12px', md: '20px' }}
+            top={{ base: '56px', md: '84px' }}
+            px='14px'
+            py='7px'
+            borderRadius='30px'
+            bg={EMK.headerPillBg}
+          >
+            <Text
+              as='span'
+              fontFamily={FONT_HEADING}
+              fontWeight={600}
+              fontSize='12px'
+              lineHeight='1.3'
+              color='white'
+            >
+              {headerCaption}
+            </Text>
+          </Box>
         </Box>
 
-        <CardBody position='relative' zIndex={1} pt={0} px={{ base: 4, md: 6 }} pb={6}>
-          <Flex
-            flexDir={{ base: 'column', lg: 'row' }}
-            gap={{ base: 5, lg: 6 }}
-            align={{ lg: 'flex-start' }}
-            justify='space-between'
+        <VStack
+          position='absolute'
+          right={{ base: '12px', md: '20px' }}
+          top={{ base: '16px', md: '26px' }}
+          zIndex={3}
+          w={{ base: '120px', sm: '146px' }}
+          spacing={2}
+          align='stretch'
+        >
+          <Box bg={EMK.avatarFrameBg} borderRadius='20px' p='10px' flexShrink={0}>
+            <Box
+              bg={EMK.sheetBg}
+              borderRadius='15px'
+              overflow='hidden'
+              position='relative'
+              h={{ base: '136px', md: '170px' }}
+            >
+              <Avatar
+                src={patient.avatarSrc}
+                name={patient.avatarName ?? patient.fullName}
+                w='100%'
+                h='100%'
+                borderRadius='15px'
+              />
+            </Box>
+          </Box>
+          <Button
+            type='button'
+            h='auto'
+            py={2}
+            px={3}
+            gap={1}
+            borderRadius='18px'
+            bg={EMK.editBg}
+            color='white'
+            fontFamily={FONT_BODY}
+            fontSize='12px'
+            fontWeight={400}
+            lineHeight='1.22'
+            leftIcon={<EditIcon boxSize='14px' />}
+            _hover={{ bg: '#1a2f5c' }}
+            _active={{ bg: '#152850' }}
+            w='100%'
+            onClick={handleEdit}
           >
-            <VStack align='flex-start' spacing={3} flex='1' minW={0} pt={3}>
+            Редактировать
+          </Button>
+        </VStack>
+
+        <Box
+          position='relative'
+          zIndex={1}
+          bg={EMK.sheetBg}
+          borderRadius={radii['2xl']}
+          mt={{ base: '-48px', md: '-67px' }}
+          minH={{ base: 'auto', md: '144px' }}
+          pt='20px'
+          pb='20px'
+          pl={{ base: '16px', md: '20px' }}
+          pr={{ base: '132px', sm: '148px', md: '200px' }}
+          boxShadow='sm'
+        >
+          <Flex
+            flexDir={{ base: 'column', sm: 'row' }}
+            justify={{ sm: 'space-between' }}
+            align='flex-start'
+            gap={{ base: 2, sm: 4 }}
+            mb={{ base: 3, lg: 4 }}
+            w='full'
+            minW={0}
+          >
+            <VStack align='flex-start' spacing={2} flex='1' minW={0}>
               <HStack align='flex-start' spacing={3} flexWrap='wrap'>
                 <Text
                   as='h2'
-                  fontSize={{ base: 'xl', md: '2xl' }}
-                  fontWeight='bold'
-                  color='brand.500'
+                  fontFamily={FONT_HEADING}
+                  fontWeight={600}
+                  fontSize='16px'
+                  lineHeight='1.3'
+                  color='#000000'
                 >
                   {patient.fullName}
                 </Text>
                 {patient.isVip ? (
                   <Box
                     as='span'
-                    px={2}
-                    py={0.5}
-                    borderRadius='md'
+                    px='12px'
+                    py='2px'
+                    borderRadius='30px'
                     borderWidth='1px'
-                    borderColor={colors.app.shellStripIconHover}
-                    fontSize='xs'
-                    fontWeight='bold'
-                    color={colors.app.shellPillBorder}
-                    lineHeight='short'
+                    borderColor={EMK.vipBorder}
+                    bg={EMK.vipBg}
+                    fontFamily={FONT_HEADING}
+                    fontSize='12px'
+                    fontWeight={400}
+                    lineHeight='1.3'
+                    color={EMK.vipFg}
                   >
                     VIP
                   </Box>
                 ) : null}
               </HStack>
-
-              <StatusBadge tone={careTone}>{patient.careCategoryLabel}</StatusBadge>
-
-              <SimpleGrid
-                columns={{ base: 1, sm: 2, xl: 4 }}
-                spacingX={8}
-                spacingY={4}
-                w='full'
+              <Box
+                as='span'
+                display='inline-flex'
+                alignItems='center'
+                px='20px'
+                py='2px'
+                borderRadius='30px'
+                bg={EMK.careBg}
+                fontFamily={FONT_HEADING}
+                fontSize='12px'
+                fontWeight={400}
+                lineHeight='1.3'
+                color={EMK.careFg}
               >
-                <InfoItem icon={InfoOutlineIcon} label='PINFL' value={patient.pinfl} />
-                <InfoItem
-                  icon={CalendarIcon}
-                  label='Дата рождения'
-                  value={patient.dateOfBirth}
-                />
-                <InfoItem icon={PhoneIcon} label='Контакт' value={patient.contactPhone} />
-                <InfoItem
-                  icon={ViewIcon}
-                  label='Место жительство'
-                  value={patient.residence}
-                />
-              </SimpleGrid>
+                {patient.careCategoryLabel}
+              </Box>
             </VStack>
 
             <VStack
-              align='center'
-              spacing={3}
+              align='flex-end'
+              spacing={0.5}
               flexShrink={0}
-              w={{ base: 'full', lg: 'auto' }}
-              mt={{ base: 0, lg: '-3.25rem' }}
+              alignSelf={{ base: 'flex-end', sm: 'auto' }}
+              pt={{ base: 0, lg: '2px' }}
+              lineHeight='1.22'
             >
-              <VStack spacing={0} align={{ base: 'center', lg: 'flex-end' }} w='full'>
-                <Text
-                  fontSize='sm'
-                  color='fg.muted'
-                  textAlign={{ base: 'center', lg: 'right' }}
-                >
-                  {patient.patientIdLabel}
-                </Text>
-                <Text
-                  fontSize='sm'
-                  color='fg.muted'
-                  textAlign={{ base: 'center', lg: 'right' }}
-                >
-                  {patient.ageAndGender}
-                </Text>
-              </VStack>
-              <AvatarPanel
-                size='xl'
-                src={patient.avatarSrc}
-                name={patient.avatarName ?? patient.fullName}
-                borderRadius={radii['2xl']}
-                boxSize='120px'
-              />
-              <Button
-                type='button'
-                size='sm'
-                leftIcon={<EditIcon />}
-                variant='solid'
-                bg='brand.500'
-                color='white'
-                _hover={{ bg: 'brand.600' }}
-                onClick={handleEdit}
+              <Text
+                fontFamily={FONT_HEADING}
+                fontWeight={400}
+                fontSize='12px'
+                lineHeight='1.3'
+                color={EMK.patientId}
+                textAlign='right'
               >
-                Редактировать
-              </Button>
+                {patient.patientIdLabel}
+              </Text>
+              <Text
+                fontFamily={FONT_BODY}
+                fontWeight={400}
+                fontSize='12px'
+                lineHeight='1.22'
+                color={EMK.fieldLabel}
+                textAlign='right'
+              >
+                {patient.ageAndGender}
+              </Text>
             </VStack>
           </Flex>
-        </CardBody>
+
+          <Flex
+            flexWrap={{ base: 'wrap', lg: 'nowrap' }}
+            align='flex-start'
+            justify='flex-start'
+            gap={{ base: 3, lg: 0 }}
+            w='full'
+            minW={0}
+          >
+            <Box flexShrink={0} minW={{ base: '140px', lg: 'unset' }}>
+              <InfoItem
+                variant='emk'
+                icon={CalendarIcon}
+                label='PINFL'
+                value={patient.pinfl}
+              />
+            </Box>
+            <FieldDivider />
+            <Box flexShrink={0} minW={{ base: '140px', lg: 'unset' }}>
+              <InfoItem
+                variant='emk'
+                icon={CalendarIcon}
+                label='Дата рождения'
+                value={patient.dateOfBirth}
+              />
+            </Box>
+            <FieldDivider />
+            <Box flexShrink={0} minW={{ base: '140px', lg: 'unset' }}>
+              <InfoItem
+                variant='emk'
+                icon={PhoneIcon}
+                label='Контакт'
+                value={patient.contactPhone}
+              />
+            </Box>
+            <FieldDivider />
+            <Box
+              flexShrink={0}
+              flexGrow={{ lg: 1 }}
+              minW={{ base: '200px', lg: 0 }}
+              maxW={{ lg: '100%' }}
+            >
+              <InfoItem
+                variant='emk'
+                icon={ViewIcon}
+                label='Место жительство'
+                value={patient.residence}
+              />
+            </Box>
+          </Flex>
+        </Box>
       </Box>
     </Card>
   );

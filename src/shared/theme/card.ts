@@ -43,6 +43,8 @@ export const cardTheme: ComponentStyleConfig = {
         borderRadius: radii['2xl'],
         boxShadow: shadows.card,
         position: 'relative',
+        overflow: 'visible',
+        bg: 'unset',
       },
     },
   },

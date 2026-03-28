@@ -99,7 +99,12 @@ export const PageShellHeaderTrailing: React.FC = () => (
         borderRadius='26px'
       />
       <Flex align='center' gap={2} minW={0}>
-        <Avatar name='Регистратор 1' boxSize='40px' flexShrink={0} />
+        <Avatar
+          src='/avatar.png'
+          name='Регистратор 1'
+          boxSize='40px'
+          flexShrink={0}
+        />
         <Flex
           direction='column'
           justify='center'

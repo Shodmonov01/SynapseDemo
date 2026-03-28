@@ -10,5 +10,5 @@ export const stripIconClassName =
   'disabled:cursor-not-allowed disabled:opacity-45';
 
 export const pillBaseClassName =
-  'flex w-full max-w-[3.25rem] flex-col items-center rounded-[25px] bg-[#223B77] border-t-2 border-r-2 border-[#374A76] border-l-0 border-b-0 ' +
+  'flex w-full max-w-[52px] flex-col items-center rounded-[25px] bg-[#223B77] border-t-2 border-r-2 border-[#374A76] border-l-0 border-b-0 ' +
   'max-md:max-w-none max-md:w-auto max-md:flex-none max-md:flex-row';

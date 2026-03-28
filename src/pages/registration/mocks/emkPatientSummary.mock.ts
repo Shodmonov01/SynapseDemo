@@ -12,5 +12,6 @@ export const MOCK_EMK_PATIENT: EmkPatientSummary = {
   careCategoryLabel: 'Амбулаторный',
   careCategoryTone: 'info',
   isVip: true,
+  avatarSrc: '/avatar.png',
   avatarName: 'РДН',
 };
