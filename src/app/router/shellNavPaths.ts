@@ -3,7 +3,7 @@ import { SHELL_NAV_DEFAULT_ID } from '../PageShell/constants';
 
 /** Путь в приложении для каждого пункта бокового меню (синхронно с `SHELL_NAV_SECTIONS`). */
 export const SHELL_NAV_PATH_BY_ITEM_ID: Record<string, string> = {
-  visits: '/registry/visits',
+  visits: URLS.REGISTRATION_VISITS,
   'e-queue': '/registry/e-queue',
   'emk-base': '/registry/emk-base',
   'doctor-outings': '/registry/doctor-outings',

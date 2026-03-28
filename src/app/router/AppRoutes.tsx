@@ -4,8 +4,8 @@ import { Navigate } from 'react-router-dom';
 import { PageShell } from 'app/PageShell';
 import { URLS } from 'app/router/urls.tsx';
 
-import { Registration } from '../../pages/registration/Registration.tsx';
 import { RegistrationMedicalDocumentsPage } from '../../pages/registration/RegistrationMedicalDocumentsPage.tsx';
+import { RegistrationVisitsPage } from '../../pages/registration/RegistrationVisitsPage/RegistrationVisitsPage.tsx';
 
 import { Text } from '@chakra-ui/react';
 
@@ -16,10 +16,6 @@ const ShellSectionPlaceholder = () => (
 );
 
 export const appRoutes: RouteObject[] = [
-  {
-    path: URLS.REGISTRATION,
-    element: <Registration />,
-  },
   {
     path: URLS.REGISTRATION_MEDICAL_DOCUMENTS,
     element: <RegistrationMedicalDocumentsPage />,
@@ -34,6 +30,10 @@ export const appRoutes: RouteObject[] = [
         element: <RegistrationMedicalDocumentsPage />,
       },
       { path: '*', element: <ShellSectionPlaceholder /> },
+      {
+        path: URLS.REGISTRATION_VISITS,
+        element: <RegistrationVisitsPage />,
+      },
     ],
   },
 ];
