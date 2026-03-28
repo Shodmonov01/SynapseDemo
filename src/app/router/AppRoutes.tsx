@@ -4,6 +4,8 @@ import { Navigate } from 'react-router-dom';
 import { PageShell } from 'app/PageShell';
 import { URLS } from 'app/router/urls.tsx';
 
+import { DoctorVisitPage } from '../../pages/registration/DoctorVisitPage/DoctorVisitPage.tsx';
+import QueuePage from '../../pages/registration/QueuePage/QueuePage.tsx';
 import { RegistrationMedicalDocumentsPage } from '../../pages/registration/RegistrationMedicalDocumentsPage.tsx';
 import { RegistrationVisitsPage } from '../../pages/registration/RegistrationVisitsPage/RegistrationVisitsPage.tsx';
 
@@ -33,6 +35,14 @@ export const appRoutes: RouteObject[] = [
       {
         path: URLS.REGISTRATION_VISITS,
         element: <RegistrationVisitsPage />,
+      },
+      {
+        path: URLS.REGISTRATION_QUEUE,
+        element: <QueuePage />,
+      },
+      {
+        path: URLS.REGISTRATION_DOCTOR_VISIT,
+        element: <DoctorVisitPage />,
       },
     ],
   },

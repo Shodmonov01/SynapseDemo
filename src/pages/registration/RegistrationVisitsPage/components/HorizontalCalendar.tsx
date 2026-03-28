@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Box, Button, Circle, Flex, HStack, IconButton, Text } from '@chakra-ui/react';
+import { Box, Button, Circle, Flex, HStack, Text } from '@chakra-ui/react';
 
 const WEEKDAY_LABELS = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'] as const;
 
@@ -76,20 +75,11 @@ export default function HorizontalCalendar({
     return () => ro.disconnect();
   }, []);
 
-  const maxOffset = Math.max(0, daysCount - visibleCount);
   const visibleDays = days.slice(offset, offset + visibleCount);
 
   function handleSelect(date: Date) {
     if (!controlled) setInternalSelected(date);
     onDateSelect?.(date);
-  }
-
-  function scrollBy(direction: 'left' | 'right') {
-    setOffset((prev) =>
-      direction === 'left'
-        ? Math.max(0, prev - visibleCount)
-        : Math.min(maxOffset, prev + visibleCount),
-    );
   }
 
   return (
