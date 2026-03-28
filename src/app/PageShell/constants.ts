@@ -24,9 +24,9 @@ export const SHELL_NAV_SECTIONS: ShellNavSection[] = [
     title: 'Регистратура амбулатория',
     items: [
       { id: 'visits', label: 'Визиты', icon: IconDocumentForward },
-      { id: 'e-queue', label: 'Электронная очередь', icon: IconCards },
+      { id: 'queue', label: 'Электронная очередь', icon: IconCards },
       { id: 'emk-base', label: 'База ЭМК', icon: IconArchiveBook },
-      { id: 'doctor-outings', label: 'Выезды врачей', icon: IconTruck },
+      { id: 'doctor-visit', label: 'Выезды врачей', icon: IconTruck },
       { id: 'lab-outings', label: 'Выезды лабороторий', icon: IconTruck },
     ],
   },
