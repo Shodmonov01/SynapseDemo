@@ -1,30 +1,58 @@
-export type DoctorStatus =
-  | 'На операции'
-  | 'Обед'
-  | 'Не пришел'
-  | 'Принимает'
-  | 'Отпуск'
-  | 'Завершил';
+export type AppointmentStatus = 'waiting' | 'queue' | 'reception' | 'done';
 
-export interface QueuePatient {
+// Column order for forward-only drag validation
+export const COLUMN_ORDER: AppointmentStatus[] = [
+  'waiting',
+  'queue',
+  'reception',
+  'done',
+];
+
+export interface Appointment {
   id: string;
-  name: string;
+  patientName: string;
   doctor: string;
+  cabinet: string;
   time: string;
-  waitingSince: string; // ISO string
+  date: string; // ISO date string YYYY-MM-DD
+  discount?: string;
+  status: AppointmentStatus;
+  direction?: string;
+  service?: string;
 }
 
-export interface DoctorRow {
+export interface NewAppointmentForm {
+  direction: string;
+  doctor: string;
+  service: string;
+  date: string;
+  patientName: string;
+  cabinet: string;
+  time: string;
+}
+
+export interface Doctor {
   id: string;
   name: string;
-  role: string;
+  specialty: string;
   arrivalTime: string;
   departureTime: string;
   recordsCount: number;
   queueCount: number;
   completedCount: number;
-  status: DoctorStatus;
-  queue: QueuePatient[];
-  active: QueuePatient | null;
-  completed: QueuePatient[];
+  doctorStatus:
+    | 'На операции'
+    | 'Обед'
+    | 'На приёме'
+    | 'Закрыть очередь'
+    | 'Отпуск'
+    | 'Не пришел'
+    | 'Приём';
+}
+
+export interface KanbanColumn {
+  id: AppointmentStatus;
+  title: string;
+  color: string;
+  bgColor: string;
 }

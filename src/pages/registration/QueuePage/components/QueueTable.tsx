@@ -1,216 +1,241 @@
-import { useState } from 'react';
-
-import type { DoctorRow } from '../queue.types';
-import { STATUS_COLORS } from '../queue.utils';
-
-import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import {
-  Badge,
   Box,
-  Button,
-  Checkbox,
+  Text,
   Flex,
-  IconButton,
   Input,
   InputGroup,
-  InputRightElement,
+  InputLeftElement,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Checkbox,
+  Badge,
+  IconButton,
+  Button,
   Menu,
   MenuButton,
-  MenuItem,
   MenuList,
-  Text,
+  MenuItem,
 } from '@chakra-ui/react';
+import { SearchIcon, AddIcon, SettingsIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { doctors } from '../queue.utils.ts';
 
-interface Props {
-  doctors: DoctorRow[];
-  onOpenQueue: (doctorId: string) => void;
-  onCloseQueue: (doctorId: string) => void;
-  onAddRecord: () => void;
-}
+const statusConfig: Record<string, { label: string; bg: string; color: string }> = {
+  'На операции': { label: 'На операции', bg: 'orange.50', color: 'orange.600' },
+  Обед: { label: 'Обед', bg: 'yellow.50', color: 'yellow.700' },
+  'На приёме': { label: 'На приёме', bg: 'green.50', color: 'green.600' },
+  'Закрыть очередь': { label: 'Закрыть очередь', bg: 'red.50', color: 'red.500' },
+  Отпуск: { label: 'Отпуск', bg: 'purple.50', color: 'purple.600' },
+  'Не пришел': { label: 'Не пришел', bg: 'gray.100', color: 'gray.600' },
+  Приём: { label: 'Приём', bg: 'blue.50', color: 'blue.600' },
+};
 
-export const QueueTable: React.FC<Props> = ({
-  doctors,
-  onOpenQueue,
-  onCloseQueue,
-  onAddRecord,
-}) => {
-  const [search, setSearch] = useState('');
-  const [selected, setSelected] = useState<string[]>([]);
-
-  const filtered = doctors.filter(
-    (d) =>
-      d.name.toLowerCase().includes(search.toLowerCase()) ||
-      d.role.toLowerCase().includes(search.toLowerCase()),
-  );
-
-  const toggleSelect = (id: string) =>
-    setSelected((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-    );
-
-  const toggleAll = () =>
-    setSelected(selected.length === filtered.length ? [] : filtered.map((d) => d.id));
-
-  const cols = [
-    { label: 'Врач', w: '180px' },
-    { label: 'Время прихода', w: '130px' },
-    { label: 'Время ухода', w: '120px' },
-    { label: 'Кол-во записей', w: '120px' },
-    { label: 'Кол-во очередей', w: '130px' },
-    { label: 'Завершённые', w: '120px' },
-    { label: 'Статус врача', w: '160px' },
-  ];
-
+export const QueueTable = () => {
   return (
-    <Box bg='#1E3A5F' borderRadius='16px' overflow='hidden'>
-      {/* Header */}
-      <Flex align='center' justify='space-between' px={5} py={4}>
-        <Text fontSize='15px' fontWeight='600' color='white'>
+    <Box
+      bg='white'
+      borderRadius='14px'
+      border='1px solid'
+      borderColor='gray.100'
+      boxShadow='0 1px 6px rgba(0,0,0,0.05)'
+      overflow='hidden'
+      mt='18px'
+    >
+      {/* Table Header Bar */}
+      <Flex
+        bg='gray.700'
+        align='center'
+        justify='space-between'
+        px='20px'
+        py='12px'
+        gap={3}
+      >
+        <Text color='white' fontWeight='600' fontSize='15px' whiteSpace='nowrap'>
           Таблица очередей
         </Text>
-        <Flex gap={3} align='center'>
-          <InputGroup size='sm' w='220px'>
+        <Flex align='center' gap={2} flex={1} justify='flex-end'>
+          <InputGroup maxW='260px' size='sm'>
+            <InputLeftElement pointerEvents='none'>
+              <SearchIcon color='gray.400' boxSize='13px' />
+            </InputLeftElement>
             <Input
               placeholder='Поиск'
               bg='white'
-              borderRadius='20px'
+              borderRadius='8px'
               border='none'
               fontSize='13px'
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              _focus={{ boxShadow: 'none' }}
+              _placeholder={{ color: 'gray.400' }}
+              _focus={{ boxShadow: '0 0 0 2px rgba(59,130,246,0.5)' }}
             />
-            <InputRightElement>
-              <SearchIcon color='gray.400' boxSize='12px' />
-            </InputRightElement>
           </InputGroup>
           <IconButton
-            aria-label='filter'
-            icon={<Text fontSize='16px'>⊟</Text>}
+            aria-label='Settings'
+            icon={<SettingsIcon />}
             size='sm'
-            borderRadius='full'
-            bg='whiteAlpha.200'
+            bg='gray.600'
             color='white'
-            _hover={{ bg: 'whiteAlpha.300' }}
+            borderRadius='8px'
+            _hover={{ bg: 'gray.500' }}
           />
           <IconButton
-            aria-label='add'
+            aria-label='Add'
             icon={<AddIcon />}
             size='sm'
-            borderRadius='full'
-            bg='whiteAlpha.200'
+            bg='blue.500'
             color='white'
-            _hover={{ bg: 'whiteAlpha.300' }}
-            onClick={onAddRecord}
+            borderRadius='8px'
+            _hover={{ bg: 'blue.600' }}
           />
         </Flex>
       </Flex>
 
-      {/* Column headers */}
-      <Box bg='#1E3A5F' px={5} pb={2}>
-        <Flex align='center' gap={2}>
-          <Checkbox
-            isChecked={selected.length === filtered.length && filtered.length > 0}
-            isIndeterminate={selected.length > 0 && selected.length < filtered.length}
-            onChange={toggleAll}
-            colorScheme='blue'
-            borderColor='whiteAlpha.500'
-            mr={2}
-          />
-          {cols.map((c) => (
-            <Flex key={c.label} w={c.w} minW={c.w} align='center' gap={1}>
-              <Text fontSize='12px' color='whiteAlpha.700' fontWeight='500'>
-                {c.label}
-              </Text>
-            </Flex>
-          ))}
-        </Flex>
-      </Box>
-
-      {/* Rows */}
-      <Box bg='white' borderRadius='0 0 16px 16px'>
-        {filtered.map((doc, i) => (
-          <Flex
-            key={doc.id}
-            align='center'
-            px={5}
-            py={3}
-            gap={2}
-            borderBottom={i < filtered.length - 1 ? '1px solid #F0F4F8' : 'none'}
-            _hover={{ bg: '#FAFBFF' }}
-          >
-            <Checkbox
-              isChecked={selected.includes(doc.id)}
-              onChange={() => toggleSelect(doc.id)}
-              colorScheme='blue'
-              mr={2}
-            />
-            {/* Врач */}
-            <Box w='180px' minW='180px'>
-              <Text fontSize='13px' fontWeight='600' color='#1A365D'>
-                {doc.name}
-              </Text>
-              <Text fontSize='11px' color='gray.400'>
-                {doc.role}
-              </Text>
-            </Box>
-            {/* Время прихода */}
-            <Box w='130px' minW='130px'>
-              <Text fontSize='13px' color='#2D3748'>
-                {doc.arrivalTime}
-              </Text>
-            </Box>
-            {/* Время ухода */}
-            <Box w='120px' minW='120px'>
-              <Text fontSize='13px' color='#2D3748'>
-                {doc.departureTime}
-              </Text>
-            </Box>
-            {/* Кол-во записей */}
-            <Box w='120px' minW='120px'>
-              <Text fontSize='13px' color='#2D3748'>
-                {doc.recordsCount}
-              </Text>
-            </Box>
-            {/* Кол-во очередей */}
-            <Box w='130px' minW='130px'>
-              <Text fontSize='13px' color='#2D3748'>
-                {doc.queueCount}
-              </Text>
-            </Box>
-            {/* Завершённые */}
-            <Box w='120px' minW='120px'>
-              <Text fontSize='13px' color='#2D3748'>
-                {doc.completedCount}
-              </Text>
-            </Box>
-            {/* Статус + меню */}
-            <Flex w='160px' minW='160px' align='center' gap={2}>
-              <Badge
-                px={3}
-                py={1}
-                borderRadius='20px'
-                fontSize='11px'
-                fontWeight='500'
-                bg={STATUS_COLORS[doc.status]?.bg ?? '#F3F4F6'}
-                color={STATUS_COLORS[doc.status]?.color ?? '#374151'}
-              >
-                {doc.status}
-              </Badge>
-              <Menu>
-                <MenuButton as={Button} size='xs' variant='ghost' color='gray.400' px={1}>
-                  ···
-                </MenuButton>
-                <MenuList minW='160px' fontSize='13px'>
-                  <MenuItem onClick={() => onOpenQueue(doc.id)}>Открыть очередь</MenuItem>
-                  <MenuItem onClick={() => onCloseQueue(doc.id)} color='red.500'>
-                    Закрыть очередь
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            </Flex>
-          </Flex>
-        ))}
+      {/* Table */}
+      <Box overflowX='auto'>
+        <Table variant='simple' size='sm'>
+          <Thead bg='gray.50'>
+            <Tr>
+              <Th w='36px' px='16px' py='12px'>
+                <Checkbox size='sm' />
+              </Th>
+              <Th fontSize='12px' color='gray.500' fontWeight='600' py='12px'>
+                <Flex align='center' gap={1}>
+                  <Box as='span' color='blue.400'>
+                    +
+                  </Box>{' '}
+                  Врач
+                </Flex>
+              </Th>
+              <Th fontSize='12px' color='gray.500' fontWeight='600'>
+                Время прихода
+              </Th>
+              <Th fontSize='12px' color='gray.500' fontWeight='600'>
+                Время ухода
+              </Th>
+              <Th fontSize='12px' color='gray.500' fontWeight='600'>
+                Кол-во записей
+              </Th>
+              <Th fontSize='12px' color='gray.500' fontWeight='600'>
+                Кол-во очередей
+              </Th>
+              <Th fontSize='12px' color='gray.500' fontWeight='600'>
+                Завершённые
+              </Th>
+              <Th fontSize='12px' color='gray.500' fontWeight='600'>
+                Статус врача
+              </Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {doctors.map((doc, idx) => {
+              const st = statusConfig[doc.doctorStatus] ?? statusConfig['Приём'];
+              return (
+                <Tr
+                  key={doc.id}
+                  bg={idx % 2 === 0 ? 'white' : 'gray.50'}
+                  _hover={{ bg: 'blue.50', transition: 'background 0.15s' }}
+                >
+                  <Td px='16px'>
+                    <Checkbox size='sm' />
+                  </Td>
+                  <Td>
+                    <Text fontWeight='500' fontSize='13px' color='gray.800'>
+                      {doc.name}
+                    </Text>
+                    <Text fontSize='11px' color='gray.400'>
+                      {doc.specialty}
+                    </Text>
+                  </Td>
+                  <Td>
+                    <Flex align='center' gap={1}>
+                      <Box as='span' color='gray.400' fontSize='12px'>
+                        ⏱
+                      </Box>
+                      <Text fontSize='13px' color='gray.700'>
+                        {doc.arrivalTime}
+                      </Text>
+                    </Flex>
+                  </Td>
+                  <Td>
+                    <Flex align='center' gap={1}>
+                      <Box as='span' color='gray.400' fontSize='12px'>
+                        ⏱
+                      </Box>
+                      <Text fontSize='13px' color='gray.700'>
+                        {doc.departureTime}
+                      </Text>
+                    </Flex>
+                  </Td>
+                  <Td>
+                    <Flex align='center' gap={1}>
+                      <Box as='span' color='gray.400' fontSize='12px'>
+                        ≡
+                      </Box>
+                      <Text fontSize='13px' color='gray.700'>
+                        {doc.recordsCount}
+                      </Text>
+                    </Flex>
+                  </Td>
+                  <Td>
+                    <Flex align='center' gap={1}>
+                      <Box as='span' color='gray.400' fontSize='12px'>
+                        ≡
+                      </Box>
+                      <Text fontSize='13px' color='gray.700'>
+                        {doc.queueCount}
+                      </Text>
+                    </Flex>
+                  </Td>
+                  <Td>
+                    <Flex align='center' gap={1}>
+                      <Box as='span' color='gray.400' fontSize='12px'>
+                        ≡
+                      </Box>
+                      <Text fontSize='13px' color='gray.700'>
+                        {doc.completedCount}
+                      </Text>
+                    </Flex>
+                  </Td>
+                  <Td>
+                    <Menu>
+                      <MenuButton
+                        as={Button}
+                        size='xs'
+                        bg={st.bg}
+                        color={st.color}
+                        fontWeight='500'
+                        fontSize='11px'
+                        borderRadius='6px'
+                        px='10px'
+                        rightIcon={<ChevronDownIcon />}
+                        border='1px solid'
+                        borderColor='transparent'
+                        _hover={{ borderColor: st.color, opacity: 0.9 }}
+                        _active={{ bg: st.bg }}
+                      >
+                        {st.label}
+                      </MenuButton>
+                      <MenuList
+                        fontSize='13px'
+                        minW='160px'
+                        borderRadius='10px'
+                        boxShadow='lg'
+                      >
+                        {Object.keys(statusConfig).map((s) => (
+                          <MenuItem key={s} borderRadius='6px' _hover={{ bg: 'gray.50' }}>
+                            {s}
+                          </MenuItem>
+                        ))}
+                      </MenuList>
+                    </Menu>
+                  </Td>
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </Table>
       </Box>
     </Box>
   );

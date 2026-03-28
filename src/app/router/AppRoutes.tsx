@@ -5,7 +5,7 @@ import { PageShell } from 'app/PageShell';
 import { URLS } from 'app/router/urls.tsx';
 
 import { DoctorVisitPage } from '../../pages/registration/DoctorVisitPage/DoctorVisitPage.tsx';
-import QueuePage from '../../pages/registration/QueuePage/QueuePage.tsx';
+import { QueuePage } from '../../pages/registration/QueuePage/QueuePage.tsx';
 import { RegistrationMedicalDocumentsPage } from '../../pages/registration/RegistrationMedicalDocumentsPage.tsx';
 import { RegistrationVisitsPage } from '../../pages/registration/RegistrationVisitsPage/RegistrationVisitsPage.tsx';
 

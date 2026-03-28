@@ -1,5 +1,4 @@
-import { Box, Flex, Text, Button } from '@chakra-ui/react';
-import type { QueuePatient } from '../queue.types.ts';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 
 interface Props {
   patient: QueuePatient;

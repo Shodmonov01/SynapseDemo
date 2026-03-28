@@ -1,64 +1,232 @@
-import type { DoctorRow, QueuePatient } from './queue.types';
+import { Appointment, Doctor, KanbanColumn } from './types';
 
-export function formatElapsed(since: string): string {
-  const diff = Math.floor((Date.now() - new Date(since).getTime()) / 1000);
-  const h = Math.floor(diff / 3600)
-    .toString()
-    .padStart(2, '0');
-  const m = Math.floor((diff % 3600) / 60)
-    .toString()
-    .padStart(2, '0');
-  const s = (diff % 60).toString().padStart(2, '0');
-  return `${h}:${m}:${s}`;
-}
+const TODAY = new Date().toISOString().slice(0, 10);
 
-let _pid = 1;
-export function makePatient(doctor: string): QueuePatient {
-  return {
-    id: `p${_pid++}`,
-    name: ['Рахимов Д.Н.', 'Петров С.К.', 'Иванов А.П.', 'Козлов Д.Р.', 'Смирнов Л.Р.'][
-      Math.floor(Math.random() * 5)
-    ],
-    doctor,
-    time: '12:00',
-    waitingSince: new Date().toISOString(),
-  };
-}
+export const COLUMNS: KanbanColumn[] = [
+  { id: 'waiting', title: 'Записи', color: '#6B7280', bgColor: '#F9FAFB' },
+  { id: 'queue', title: 'Живая очередь', color: '#3B82F6', bgColor: '#EFF6FF' },
+  { id: 'reception', title: 'Сейчас на приёме', color: '#10B981', bgColor: '#ECFDF5' },
+  { id: 'done', title: 'Закончили', color: '#8B5CF6', bgColor: '#F5F3FF' },
+];
 
-export const STATUS_COLORS: Record<string, { bg: string; color: string }> = {
-  'На операции': { bg: '#EEF2FF', color: '#4F46E5' },
-  Обед: { bg: '#FEF9C3', color: '#854D0E' },
-  'Не пришел': { bg: '#FEE2E2', color: '#991B1B' },
-  Принимает: { bg: '#DCFCE7', color: '#166534' },
-  Отпуск: { bg: '#F3F4F6', color: '#374151' },
-  Завершил: { bg: '#F0FDF4', color: '#15803D' },
-};
+export const initialAppointments: Appointment[] = [
+  {
+    id: '1',
+    patientName: 'Рахимов Д.Н.',
+    doctor: 'Омонов С.Р.',
+    cabinet: 'Кабинет 12',
+    time: '09:00',
+    date: TODAY,
+    direction: 'Терапия',
+    service: 'Осмотр',
+    status: 'waiting',
+  },
+  {
+    id: '2',
+    patientName: 'Рахимов Д.Н.',
+    doctor: 'Омонов С.Р.',
+    cabinet: 'Кабинет 12',
+    time: '09:30',
+    date: TODAY,
+    direction: 'Хирургия',
+    service: 'Консультация',
+    status: 'waiting',
+  },
+  {
+    id: '3',
+    patientName: 'Рахимов Д.Н.',
+    doctor: 'Омонов С.Р.',
+    cabinet: 'Кабинет 12',
+    time: '10:00',
+    date: TODAY,
+    direction: 'Терапия',
+    service: 'УЗИ',
+    status: 'waiting',
+  },
+  {
+    id: '4',
+    patientName: 'Рахимов Д.Н.',
+    doctor: 'Омонов С.Р.',
+    cabinet: 'Кабинет 12',
+    time: '10:30',
+    date: TODAY,
+    direction: 'Кардиология',
+    service: 'ЭКГ',
+    status: 'waiting',
+  },
+  {
+    id: '5',
+    patientName: 'Рахимов Д.Н.',
+    doctor: 'Омонов С.Р.',
+    cabinet: 'Кабинет 12',
+    time: '11:00',
+    date: TODAY,
+    direction: 'Терапия',
+    service: 'Анализы',
+    status: 'waiting',
+  },
+  {
+    id: '6',
+    patientName: 'Рахимов Д.Н.',
+    doctor: 'Омонов С.Р.',
+    cabinet: 'Кабинет 12',
+    time: '11:30',
+    date: TODAY,
+    direction: 'Хирургия',
+    service: 'Перевязка',
+    status: 'waiting',
+  },
 
-export function seedDoctors(): DoctorRow[] {
-  const statuses: DoctorRow['status'][] = [
-    'На операции',
-    'Обед',
-    'Не пришел',
-    'Принимает',
-    'Отпуск',
-    'Завершил',
-  ];
-  return Array.from({ length: 6 }, (_, i) => {
-    const name = `Омонов С.В. ${i + 1}`;
-    const queue = Array.from({ length: 3 }, () => makePatient(name));
-    return {
-      id: `doc${i}`,
-      name: 'Омонов С.В.',
-      role: 'врач, гтотолог',
-      arrivalTime: ['09:05', '09:03', '08:50', '09:00', '09:00', '09:00'][i],
-      departureTime: '18:23',
-      recordsCount: 15,
-      queueCount: 5,
-      completedCount: 3,
-      status: statuses[i],
-      queue,
-      active: null,
-      completed: [],
-    };
-  });
-}
+  {
+    id: '7',
+    patientName: 'Рахимов Д.Н.',
+    doctor: 'Омонов С.Р.',
+    cabinet: 'Кабинет 12',
+    time: '09:00',
+    date: TODAY,
+    discount: 'Оплачено: 09:30',
+    direction: 'Терапия',
+    service: 'Осмотр',
+    status: 'queue',
+  },
+  {
+    id: '8',
+    patientName: 'Рахимов Д.Н.',
+    doctor: 'Омонов С.Р.',
+    cabinet: 'Кабинет 12',
+    time: '09:30',
+    date: TODAY,
+    discount: 'Оплачено: 10:00',
+    direction: 'Хирургия',
+    service: 'Консультация',
+    status: 'queue',
+  },
+  {
+    id: '9',
+    patientName: 'Рахимов Д.Н.',
+    doctor: 'Омонов С.Р.',
+    cabinet: 'Кабинет 12',
+    time: '10:00',
+    date: TODAY,
+    discount: 'Оплачено: 09:36',
+    direction: 'Кардиология',
+    service: 'ЭКГ',
+    status: 'queue',
+  },
+
+  {
+    id: '10',
+    patientName: 'Рахимов Д.Н.',
+    doctor: 'Омонов С.Р.',
+    cabinet: 'Кабинет 12',
+    time: '09:00',
+    date: TODAY,
+    discount: 'Длительность: 09:35',
+    direction: 'Терапия',
+    service: 'Осмотр',
+    status: 'reception',
+  },
+
+  {
+    id: '11',
+    patientName: 'Рахимов Д.Н.',
+    doctor: 'Омонов С.Р.',
+    cabinet: 'Кабинет 12',
+    time: '09:00',
+    date: TODAY,
+    direction: 'Терапия',
+    service: 'Осмотр',
+    status: 'done',
+  },
+  {
+    id: '12',
+    patientName: 'Рахимов Д.Н.',
+    doctor: 'Омонов С.Р.',
+    cabinet: 'Кабинет 12',
+    time: '09:30',
+    date: TODAY,
+    direction: 'Хирургия',
+    service: 'Консультация',
+    status: 'done',
+  },
+  {
+    id: '13',
+    patientName: 'Рахимов Д.Н.',
+    doctor: 'Омонов С.Р.',
+    cabinet: 'Кабинет 12',
+    time: '10:00',
+    date: TODAY,
+    direction: 'Кардиология',
+    service: 'ЭКГ',
+    status: 'done',
+  },
+];
+
+export const doctors: Doctor[] = [
+  {
+    id: 'd1',
+    name: 'Омонов С.Р.',
+    specialty: 'врач · терапевт',
+    arrivalTime: '09:05',
+    departureTime: '18:21',
+    recordsCount: 15,
+    queueCount: 5,
+    completedCount: 3,
+    doctorStatus: 'На операции',
+  },
+  {
+    id: 'd2',
+    name: 'Омонов С.В.',
+    specialty: 'врач · хирург',
+    arrivalTime: '09:05',
+    departureTime: '18:21',
+    recordsCount: 16,
+    queueCount: 5,
+    completedCount: 3,
+    doctorStatus: 'Обед',
+  },
+  {
+    id: 'd3',
+    name: 'Омонов С.В.',
+    specialty: 'врач · терапевт',
+    arrivalTime: '08:50',
+    departureTime: '18:21',
+    recordsCount: 15,
+    queueCount: 5,
+    completedCount: 3,
+    doctorStatus: 'На приёме',
+  },
+  {
+    id: 'd4',
+    name: 'Омонов С.В.',
+    specialty: 'врач · хирург',
+    arrivalTime: '09:00',
+    departureTime: '18:21',
+    recordsCount: 15,
+    queueCount: 5,
+    completedCount: 3,
+    doctorStatus: 'Закрыть очередь',
+  },
+  {
+    id: 'd5',
+    name: 'Омонов С.В.',
+    specialty: 'врач · терапевт',
+    arrivalTime: '09:00',
+    departureTime: '18:21',
+    recordsCount: 15,
+    queueCount: 5,
+    completedCount: 3,
+    doctorStatus: 'Отпуск',
+  },
+  {
+    id: 'd6',
+    name: 'Омонов С.В.',
+    specialty: 'врач · хирург',
+    arrivalTime: '09:00',
+    departureTime: '18:21',
+    recordsCount: 15,
+    queueCount: 5,
+    completedCount: 3,
+    doctorStatus: 'Не пришел',
+  },
+];
