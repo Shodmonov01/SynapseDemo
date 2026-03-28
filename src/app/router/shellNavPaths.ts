@@ -1,6 +1,5 @@
-import { SHELL_NAV_DEFAULT_ID } from '../PageShell/constants';
-
 import { URLS } from './urls.tsx';
+import { SHELL_NAV_DEFAULT_ID } from '../PageShell/constants';
 
 /** Путь в приложении для каждого пункта бокового меню (синхронно с `SHELL_NAV_SECTIONS`). */
 export const SHELL_NAV_PATH_BY_ITEM_ID: Record<string, string> = {

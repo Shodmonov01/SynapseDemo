@@ -59,7 +59,7 @@ export const colors = {
     },
     info: {
       bg: '#E5F0FF',
-      fg: '#1A365D',
+      fg: '#223B77',
     },
     warning: {
       bg: '#FFF0E5',

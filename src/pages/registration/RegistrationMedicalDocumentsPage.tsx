@@ -3,227 +3,79 @@ import { useLocation } from 'react-router-dom';
 
 import { URLS } from 'app/router/urls.tsx';
 
-import { SettingsIcon } from '@chakra-ui/icons';
-import { Badge, Box, Container, HStack, Text, VStack } from '@chakra-ui/react';
-import {
-  ActionIconButton,
-  AppTable,
-  type AppTableColumn,
-  SearchInput,
-  TabbedTableSection,
-  type TabbedTableSectionTab,
-} from 'shared';
+import { REGISTRATION_MEDICAL_TAB_IDS } from './constants/registrationMedicalTabIds';
+import { REGISTRATION_MEDICAL_TABS } from './constants/registrationMedicalTabs';
+import { MOCK_EMK_PATIENT } from './mocks/emkPatientSummary.mock';
+import { AllVisitsTab } from './tabs/AllVisitsTab';
+import { MedicalDocumentsTab } from './tabs/MedicalDocumentsTab';
+import { RegistrationPlaceholderTab } from './tabs/RegistrationPlaceholderTab';
 
-interface MedicalDocumentRow {
-  id: string;
-  date: string;
-  time: string;
-  clinic: string;
-  doctorName: string;
-  doctorRole: string;
-  directionLabel: string;
-  directionPrice: string;
-  service: string;
-  fileExtension: string;
-}
+import { Box, VStack } from '@chakra-ui/react';
+import { EmkPatientSummaryCard, TabbedTableSection } from 'shared';
 
-const MOCK_TABS: TabbedTableSectionTab[] = [
-  { id: 'visits', label: 'Все визиты' },
-  { id: 'consultation', label: 'Консультация врача' },
-  { id: 'instrumental', label: 'Инструментальные иследования' },
-  { id: 'lab', label: 'Лабороторные иследования' },
-  { id: 'medical-docs', label: 'Медицинские документы' },
-  { id: 'files', label: 'Файлы' },
-];
-
-const MOCK_ROWS: MedicalDocumentRow[] = [
-  {
-    id: '1',
-    date: '16.02.2026',
-    time: '16:15',
-    clinic: 'Akfa Medline',
-    doctorName: 'Рахимов Д.Н.',
-    doctorRole: 'Врач-стоматолог',
-    directionLabel: 'Поставить капельницу',
-    directionPrice: '24,000 UZS',
-    service: 'Замечательная услуга',
-    fileExtension: '.dcm',
-  },
-  {
-    id: '2',
-    date: '16.02.2026',
-    time: '16:15',
-    clinic: 'Akfa Medline',
-    doctorName: 'Рахимов Д.Н.',
-    doctorRole: 'Врач-стоматолог',
-    directionLabel: 'Поставить капельницу',
-    directionPrice: '24,000 UZS',
-    service: 'Замечательная услуга',
-    fileExtension: '.exe',
-  },
-  {
-    id: '3',
-    date: '16.02.2026',
-    time: '16:15',
-    clinic: 'Akfa Medline',
-    doctorName: 'Рахимов Д.Н.',
-    doctorRole: 'Врач-стоматолог',
-    directionLabel: 'Поставить капельницу',
-    directionPrice: '24,000 UZS',
-    service: 'Замечательная услуга',
-    fileExtension: '.docx',
-  },
-  {
-    id: '4',
-    date: '15.02.2026',
-    time: '10:00',
-    clinic: 'Akfa Medline',
-    doctorName: 'Рахимов Д.Н.',
-    doctorRole: 'Врач-стоматолог',
-    directionLabel: 'Поставить капельницу',
-    directionPrice: '24,000 UZS',
-    service: 'Замечательная услуга',
-    fileExtension: '.dcm',
-  },
-  {
-    id: '5',
-    date: '14.02.2026',
-    time: '09:30',
-    clinic: 'Akfa Medline',
-    doctorName: 'Рахимов Д.Н.',
-    doctorRole: 'Врач-стоматолог',
-    directionLabel: 'Поставить капельницу',
-    directionPrice: '24,000 UZS',
-    service: 'Замечательная услуга',
-    fileExtension: '.docx',
-  },
-];
-
-function extensionBadgeProps(ext: string): { colorScheme: string } {
-  if (ext === '.dcm') return { colorScheme: 'blue' };
-  if (ext === '.exe') return { colorScheme: 'purple' };
-  return { colorScheme: 'green' };
-}
-
+/**
+ * Страница медицинских документов / ЭМК в контексте регистратуры.
+ *
+ * **Два режима рендера:**
+ * - `standalone` — полный маршрут (например демо или отдельное окно): оборачиваем в `minH`, фон задаётся снаружи при необходимости.
+ * - вложенная в `PageShell` — только контент без внешней оболочки (отступы даёт shell).
+ *
+ * **Структура:** карточка пациента ЭМК (`EmkPatientSummaryCard`), затем `TabbedTableSection` с рядом вкладок и контентом таблицы по `activeTabId`.
+ */
 export const RegistrationMedicalDocumentsPage: React.FC = () => {
   const { pathname } = useLocation();
+
+  /** Прямой заход на URL страницы — без сайдбара в демо или с полной вёрсткой, зависит от маршрутизатора. */
   const standalone = pathname === URLS.REGISTRATION_MEDICAL_DOCUMENTS;
 
-  const [activeTabId, setActiveTabId] = React.useState('medical-docs');
-
-  const columns = React.useMemo<AppTableColumn<MedicalDocumentRow>[]>(
-    () => [
-      {
-        id: 'date',
-        header: 'Дата',
-        cell: (row) => (
-          <VStack align='flex-start' spacing={0}>
-            <Text fontSize='sm' fontWeight='medium' color='fg.default'>
-              {row.date}
-            </Text>
-            <Text fontSize='xs' color='fg.muted'>
-              {row.time}
-            </Text>
-          </VStack>
-        ),
-      },
-      {
-        id: 'clinic',
-        header: 'Клиника',
-        cell: (row) => <Text fontSize='sm'>{row.clinic}</Text>,
-      },
-      {
-        id: 'doctor',
-        header: 'Врач',
-        cell: (row) => (
-          <VStack align='flex-start' spacing={0}>
-            <Text fontSize='sm' fontWeight='medium'>
-              {row.doctorName}
-            </Text>
-            <Text fontSize='xs' color='fg.muted'>
-              {row.doctorRole}
-            </Text>
-          </VStack>
-        ),
-      },
-      {
-        id: 'direction',
-        header: 'Направления',
-        cell: (row) => (
-          <VStack align='flex-start' spacing={0}>
-            <Text fontSize='sm'>{row.directionLabel}</Text>
-            <Text fontSize='xs' color='fg.muted'>
-              {row.directionPrice}
-            </Text>
-          </VStack>
-        ),
-      },
-      {
-        id: 'service',
-        header: 'Услуга',
-        cell: (row) => <Text fontSize='sm'>{row.service}</Text>,
-      },
-      {
-        id: 'ext',
-        header: 'Тип файла',
-        cell: (row) => {
-          const { colorScheme } = extensionBadgeProps(row.fileExtension);
-          return (
-            <Badge
-              variant='outline'
-              colorScheme={colorScheme}
-              borderRadius='full'
-              px={2.5}
-              py={0.5}
-            >
-              {row.fileExtension}
-            </Badge>
-          );
-        },
-      },
-    ],
-    [],
+  /** Активная вкладка блока табов (локальный UI state до синхронизации с query или store). */
+  const [activeTabId, setActiveTabId] = React.useState<string>(
+    REGISTRATION_MEDICAL_TAB_IDS.visits,
   );
 
-  const toolbarActions = React.useMemo(
-    () => (
-      <HStack spacing={3}>
-        <SearchInput placeholder='Поиск' maxW='400px' aria-label='Поиск по таблице' />
-        <ActionIconButton
-          toolbar
-          aria-label='Дополнительные действия'
-          icon={<SettingsIcon />}
-        />
-      </HStack>
-    ),
-    [],
-  );
+  /**
+   * Контент области под табами: каждая вкладка — отдельный компонент, чтобы не раздувать страницу.
+   * Зависимость только от `activeTabId`: внутреннее состояние вкладок живёт внутри соответствующих табов.
+   */
+  const tabContent = React.useMemo(() => {
+    switch (activeTabId) {
+      case REGISTRATION_MEDICAL_TAB_IDS.visits:
+        return <AllVisitsTab />;
+
+      case REGISTRATION_MEDICAL_TAB_IDS.consultation:
+        return <MedicalDocumentsTab title='Консультация врача' />;
+
+      case REGISTRATION_MEDICAL_TAB_IDS.instrumental:
+        return <MedicalDocumentsTab title='Инструментальные исследования' />;
+
+      case REGISTRATION_MEDICAL_TAB_IDS.medicalDocs:
+        return <MedicalDocumentsTab />;
+
+      case REGISTRATION_MEDICAL_TAB_IDS.files:
+        return <MedicalDocumentsTab title='Файлы' />;
+
+      default:
+        return <RegistrationPlaceholderTab />;
+    }
+  }, [activeTabId]);
 
   const body = (
-    <Container maxW='container.xl'>
-      <TabbedTableSection
-        tabs={MOCK_TABS}
-        activeTabId={activeTabId}
-        onTabChange={setActiveTabId}
-        toolbarTitle='Медицинские документы'
-        toolbarActions={toolbarActions}
-      >
-        <AppTable<MedicalDocumentRow>
-          columns={columns}
-          rows={MOCK_ROWS}
-          getRowKey={(row) => row.id}
-          variant='soft'
-        />
-      </TabbedTableSection>
-    </Container>
+    <>
+      <VStack align='stretch' spacing={4}>
+        <EmkPatientSummaryCard patient={MOCK_EMK_PATIENT} />
+        <TabbedTableSection
+          tabs={REGISTRATION_MEDICAL_TABS}
+          activeTabId={activeTabId}
+          onTabChange={setActiveTabId}
+        >
+          {tabContent}
+        </TabbedTableSection>
+      </VStack>
+    </>
   );
 
   if (standalone) {
-    return (
-      <Box bg='bg.app' minH='100vh' py={8}>
-        {body}
-      </Box>
-    );
+    return <Box minH='100vh'>{body}</Box>;
   }
 
   return body;

@@ -31,7 +31,18 @@ export const AppTabs: React.FC<AppTabsProps> = ({ items, variant = 'pill', ...re
   );
 
   return (
-    <Tabs variant={variant} defaultIndex={defaultIndex} isLazy {...rest}>
+    <Tabs
+      // variant={variant}
+      variant='plain'
+      defaultIndex={defaultIndex}
+      isLazy
+      {...rest}
+      // css={{
+      //   '--tabs-indicator-bg': 'colors.gray.subtle',
+      //   '--tabs-indicator-shadow': 'shadows.xs',
+      //   '--tabs-trigger-radius': 'radii.full',
+      // }}
+    >
       <TabList>
         {items.map((item) => (
           <Tab key={item.id} isDisabled={item.isDisabled}>

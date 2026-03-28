@@ -18,7 +18,11 @@ const config: ThemeConfig = {
 export const synapseTheme = extendTheme({
   config,
   colors: {
-    brand: colors.brand,
+    brand: {
+      ...colors.brand,
+      500: colors.app.shellStripIconFg,
+      600: colors.app.shellNavActiveHover,
+    },
     app: {
       bg: colors.app.background,
       surface: colors.app.surface,
@@ -57,10 +61,12 @@ export const synapseTheme = extendTheme({
       'bg.surface': semantic.bg.surface,
       'bg.toolbar': semantic.bg.toolbar,
       'bg.tableNested': semantic.bg.tableNested,
+      'bg.nestedTableSurface': semantic.bg.nestedTableSurface,
       'fg.default': semantic.fg.default,
       'fg.muted': semantic.fg.muted,
       'fg.onBrand': semantic.fg.onBrand,
       'border.subtle': semantic.border.subtle,
+      'border.nestedTable': semantic.border.nestedTable,
     },
   },
   styles: {
@@ -77,6 +83,13 @@ export const synapseTheme = extendTheme({
     Tabs: tabsTheme,
     Table: tableTheme,
     Card: cardTheme,
+    Checkbox: {
+      baseStyle: {
+        control: {
+          borderColor: colors.app.shellStripIconFg,
+        },
+      },
+    },
   },
 });
 
