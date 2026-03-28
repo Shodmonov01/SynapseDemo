@@ -55,6 +55,11 @@ export interface AppTableProps<Row> extends TableProps {
   noBorder?: boolean;
   /** Содержимое <Tfoot>: один или несколько <Tr> */
   tfoot?: React.ReactNode;
+  /**
+   * В flex-колонке с `flex={1} minH={0}`: контейнер таблицы заполняет высоту,
+   * прокрутка внутри таблицы, шапка sticky.
+   */
+  fillAvailableHeight?: boolean;
 }
 
 interface SortableHeaderProps {
@@ -139,6 +144,7 @@ export function AppTable<Row>({
   selection,
   noBorder = false,
   tfoot,
+  fillAvailableHeight = false,
   ...rest
 }: AppTableProps<Row>): React.ReactElement {
   const rowKeys = React.useMemo(
@@ -177,7 +183,97 @@ export function AppTable<Row>({
     selection.onChange(allSelected ? new Set() : new Set(rowKeys));
   }, [selection, allSelected, rowKeys]);
 
-  return (
+  const tableTree = (
+    <Table variant={variant} size={size} {...rest}>
+      <Thead
+        bg={
+          fillAvailableHeight
+            ? noBorder
+              ? 'bg.nestedTableSurface'
+              : variant === 'soft'
+                ? '#DADADA'
+                : 'white'
+            : undefined
+        }
+        sx={
+          fillAvailableHeight
+            ? {
+                position: 'sticky',
+                top: 0,
+                zIndex: 1,
+                boxShadow: '0 1px 0 0 rgba(0, 0, 0, 0.06)',
+                ...(noBorder ? { height: '46px' } : {}),
+              }
+            : noBorder
+              ? { height: '46px' }
+              : undefined
+        }
+      >
+        <Tr>
+          {selection ? (
+            <Th w='48px' px={3} verticalAlign='middle'>
+              <Checkbox
+                isChecked={allSelected}
+                isIndeterminate={someSelected}
+                onChange={toggleAll}
+                aria-label={selection.selectAllAriaLabel ?? 'Выбрать все строки'}
+                colorScheme={isSoftOnBrand ? 'whiteAlpha' : 'brand'}
+                size='md'
+              />
+            </Th>
+          ) : null}
+          {columns.map((col) => (
+            <Th key={col.id} isNumeric={col.meta?.isNumeric}>
+              {renderHeaderCell(col)}
+            </Th>
+          ))}
+        </Tr>
+      </Thead>
+      <Tbody>
+        {rows.map((row, index) => {
+          const key = getRowKey(row, index);
+          const rowSelected = selectedSet?.has(key) ?? false;
+
+          const toggleRow = () => {
+            if (!selection) return;
+            const next = new Set(selection.selectedKeys);
+            if (next.has(key)) next.delete(key);
+            else next.add(key);
+            selection.onChange(next);
+          };
+
+          return (
+            <Tr key={key} {...rowProps?.(row, index)}>
+              {selection ? (
+                <Td w='48px' px={3} verticalAlign='middle'>
+                  <Checkbox
+                    isChecked={rowSelected}
+                    onChange={toggleRow}
+                    aria-label={
+                      selection.getRowCheckboxAriaLabel?.(row, index) ??
+                      `Выбрать строку ${key}`
+                    }
+                    colorScheme='brand'
+                    size='md'
+                  />
+                </Td>
+              ) : null}
+              {columns.map((col) => (
+                <Td key={col.id} isNumeric={col.meta?.isNumeric}>
+                  {col.cell(row)}
+                </Td>
+              ))}
+            </Tr>
+          );
+        })}
+      </Tbody>
+      {tfoot ? (
+        <Tfoot sx={noBorder ? { height: '46px' } : undefined}>{tfoot}</Tfoot>
+      ) : null}
+    </Table>
+  );
+
+  const container = (
     <TableContainer
       bg={noBorder ? 'bg.nestedTableSurface' : 'white'}
       borderWidth='1px'
@@ -185,74 +281,29 @@ export function AppTable<Row>({
       borderTopWidth={noBorder ? undefined : 0}
       borderRadius={noBorder ? radii.xl : undefined}
       borderBottomRadius={noBorder ? undefined : radii.xl}
-      ml={noBorder ? '84px' : undefined}
-      mr={noBorder ? '59px' : undefined}
-      overflow='hidden'
+      ml={noBorder && !fillAvailableHeight ? '84px' : undefined}
+      mr={noBorder && !fillAvailableHeight ? '59px' : undefined}
+      overflow={fillAvailableHeight ? 'visible' : 'hidden'}
     >
-      <Table variant={variant} size={size} {...rest}>
-        <Thead sx={noBorder ? { height: '46px' } : undefined}>
-          <Tr>
-            {selection ? (
-              <Th w='48px' px={3} verticalAlign='middle'>
-                <Checkbox
-                  isChecked={allSelected}
-                  isIndeterminate={someSelected}
-                  onChange={toggleAll}
-                  aria-label={selection.selectAllAriaLabel ?? 'Выбрать все строки'}
-                  colorScheme={isSoftOnBrand ? 'whiteAlpha' : 'brand'}
-                  size='md'
-                />
-              </Th>
-            ) : null}
-            {columns.map((col) => (
-              <Th key={col.id} isNumeric={col.meta?.isNumeric}>
-                {renderHeaderCell(col)}
-              </Th>
-            ))}
-          </Tr>
-        </Thead>
-        <Tbody>
-          {rows.map((row, index) => {
-            const key = getRowKey(row, index);
-            const rowSelected = selectedSet?.has(key) ?? false;
-
-            const toggleRow = () => {
-              if (!selection) return;
-              const next = new Set(selection.selectedKeys);
-              if (next.has(key)) next.delete(key);
-              else next.add(key);
-              selection.onChange(next);
-            };
-
-            return (
-              <Tr key={key} {...rowProps?.(row, index)}>
-                {selection ? (
-                  <Td w='48px' px={3} verticalAlign='middle'>
-                    <Checkbox
-                      isChecked={rowSelected}
-                      onChange={toggleRow}
-                      aria-label={
-                        selection.getRowCheckboxAriaLabel?.(row, index) ??
-                        `Выбрать строку ${key}`
-                      }
-                      colorScheme='brand'
-                      size='md'
-                    />
-                  </Td>
-                ) : null}
-                {columns.map((col) => (
-                  <Td key={col.id} isNumeric={col.meta?.isNumeric}>
-                    {col.cell(row)}
-                  </Td>
-                ))}
-              </Tr>
-            );
-          })}
-        </Tbody>
-        {tfoot ? (
-          <Tfoot sx={noBorder ? { height: '46px' } : undefined}>{tfoot}</Tfoot>
-        ) : null}
-      </Table>
+      {tableTree}
     </TableContainer>
   );
+
+  if (fillAvailableHeight) {
+    return (
+      <Box
+        flex={1}
+        minH={0}
+        minW={0}
+        w='full'
+        overflow='auto'
+        ml={noBorder ? '84px' : undefined}
+        mr={noBorder ? '59px' : undefined}
+      >
+        {container}
+      </Box>
+    );
+  }
+
+  return container;
 }

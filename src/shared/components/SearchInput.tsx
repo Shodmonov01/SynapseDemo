@@ -38,6 +38,8 @@ export const SearchInput: React.FC<SearchInputProps> = ({
           borderColor: colors.app.shellStripIconFg,
           boxShadow: `0 0 0 1px ${colors.app.shellStripIconFg}`,
         }}
+        color={colors.neutral[800]}
+        _placeholder={{ color: colors.neutral[500] }}
         {...rest}
       />
       <InputRightElement

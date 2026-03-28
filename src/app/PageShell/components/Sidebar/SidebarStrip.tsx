@@ -8,13 +8,13 @@ export const SidebarStrip: React.FC = () => {
   return (
     <div
       className={
-        'flex min-h-0 w-[4.5rem] shrink-0 flex-col items-center py-4 pl-5 pr-0 ' +
+        'flex min-h-0 w-[72px] shrink-0 flex-col items-center py-4 pl-5 pr-0 ' +
         'max-md:w-full max-md:flex-none max-md:flex-row max-md:justify-center max-md:gap-4 max-md:px-3 max-md:pl-3'
       }
     >
       <div
         className={
-          `${pillBaseClassName} min-h-[5rem] flex-1 justify-start gap-3 px-2 pb-4 pt-3 ` +
+          `${pillBaseClassName} min-h-[80px] flex-1 justify-start gap-3 px-2 pb-4 pt-3 ` +
           'max-md:min-h-0 max-md:justify-center max-md:mt-0'
         }
       >

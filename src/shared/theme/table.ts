@@ -1,5 +1,4 @@
 import { colors } from '../tokens/colors';
-import { semantic } from '../tokens/semantic';
 
 import type { ComponentStyleConfig } from '@chakra-ui/react';
 

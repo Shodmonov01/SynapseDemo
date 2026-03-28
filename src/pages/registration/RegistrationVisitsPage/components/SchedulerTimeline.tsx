@@ -1,37 +1,38 @@
-import { useState, useRef, useCallback, useMemo, useEffect } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
 import {
-  Box,
-  Flex,
-  Text,
-  Avatar,
-  IconButton,
-  Button,
-  HStack,
-  Tooltip,
-  useColorModeValue,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-  useDisclosure,
-  InputGroup,
-  InputRightElement,
-} from '@chakra-ui/react';
-import {
+  ArrowDownIcon,
+  ArrowUpIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   CloseIcon,
   SearchIcon,
-  ArrowDownIcon,
-  ArrowUpIcon,
 } from '@chakra-ui/icons';
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  HStack,
+  IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Select,
+  Text,
+  Tooltip,
+  useColorModeValue,
+  useDisclosure,
+} from '@chakra-ui/react';
 
 const START_HOUR = 7;
 const END_HOUR = 20;

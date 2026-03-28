@@ -4,6 +4,7 @@ import { MEDICAL_DOCUMENTS_COLUMNS } from '../columns/medicalDocumentsColumns';
 import { useMedicalDocumentsTableState } from '../hooks/useMedicalDocumentsTableState';
 import type { MedicalDocumentRow } from '../types/medicalDocumentRow';
 
+import { Box } from '@chakra-ui/react';
 import { AppTable, TableToolbar } from 'shared';
 import { radii } from 'shared/tokens';
 
@@ -24,9 +25,19 @@ export const MedicalDocumentsTab: React.FC<MedicalDocumentsTabProps> = ({
     useMedicalDocumentsTableState();
 
   return (
-    <>
-      <TableToolbar title={title} actions={toolbarActions} borderTopRadius={radii.xl} />
+    <Box
+      display='flex'
+      flexDirection='column'
+      flex='1'
+      minH={0}
+      minW={0}
+      overflow='hidden'
+    >
+      <Box flexShrink={0}>
+        <TableToolbar title={title} actions={toolbarActions} borderTopRadius={radii.xl} />
+      </Box>
       <AppTable<MedicalDocumentRow>
+        fillAvailableHeight
         columns={MEDICAL_DOCUMENTS_COLUMNS}
         rows={displayRows}
         getRowKey={(row) => row.id}
@@ -39,6 +50,6 @@ export const MedicalDocumentsTab: React.FC<MedicalDocumentsTabProps> = ({
           getRowCheckboxAriaLabel: (row) => `Выбрать документ от ${row.date} ${row.time}`,
         }}
       />
-    </>
+    </Box>
   );
 };

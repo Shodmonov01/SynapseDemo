@@ -15,6 +15,9 @@ import {
 
 export const SHELL_NAV_DEFAULT_ID = 'emk';
 
+/** localStorage: свёрнута ли боковая панель на десктопе (≥md). */
+export const SIDEBAR_COLLAPSED_STORAGE_KEY = 'synapse.sidebarCollapsed';
+
 export const SHELL_NAV_SECTIONS: ShellNavSection[] = [
   {
     id: 'registry-ambulatory',

@@ -48,6 +48,9 @@ export const RegistrationMedicalDocumentsPage: React.FC = () => {
       case REGISTRATION_MEDICAL_TAB_IDS.instrumental:
         return <MedicalDocumentsTab title='Инструментальные исследования' />;
 
+      case REGISTRATION_MEDICAL_TAB_IDS.lab:
+        return <MedicalDocumentsTab title='Лабораторные исследования' />;
+
       case REGISTRATION_MEDICAL_TAB_IDS.medicalDocs:
         return <MedicalDocumentsTab />;
 
@@ -60,23 +63,52 @@ export const RegistrationMedicalDocumentsPage: React.FC = () => {
   }, [activeTabId]);
 
   const body = (
-    <>
-      <VStack align='stretch' spacing={4}>
+    <VStack
+      align='stretch'
+      spacing={4}
+      flex='1'
+      minH={0}
+      minW={0}
+      overflow='hidden'
+    >
+      <Box flexShrink={0}>
         <EmkPatientSummaryCard patient={MOCK_EMK_PATIENT} />
-        <TabbedTableSection
-          tabs={REGISTRATION_MEDICAL_TABS}
-          activeTabId={activeTabId}
-          onTabChange={setActiveTabId}
-        >
-          {tabContent}
-        </TabbedTableSection>
-      </VStack>
-    </>
+      </Box>
+      <TabbedTableSection
+        tabs={REGISTRATION_MEDICAL_TABS}
+        activeTabId={activeTabId}
+        onTabChange={setActiveTabId}
+      >
+        {tabContent}
+      </TabbedTableSection>
+    </VStack>
   );
 
   if (standalone) {
-    return <Box minH='100vh'>{body}</Box>;
+    return (
+      <Box
+        display='flex'
+        flexDirection='column'
+        h='100dvh'
+        maxH='100dvh'
+        minH={0}
+        overflow='hidden'
+      >
+        {body}
+      </Box>
+    );
   }
 
-  return body;
+  return (
+    <Box
+      display='flex'
+      flexDirection='column'
+      flex='1'
+      minH={0}
+      minW={0}
+      overflow='hidden'
+    >
+      {body}
+    </Box>
+  );
 };
