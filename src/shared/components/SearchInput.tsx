@@ -40,7 +40,12 @@ export const SearchInput: React.FC<SearchInputProps> = ({
         }}
         {...rest}
       />
-      <InputRightElement pointerEvents='none' h='full' pr={3}>
+      <InputRightElement
+        pointerEvents='none'
+        h='full'
+        pr={3}
+        sx={{ insetInlineEnd: '13px' }}
+      >
         {icon}
       </InputRightElement>
     </InputGroup>

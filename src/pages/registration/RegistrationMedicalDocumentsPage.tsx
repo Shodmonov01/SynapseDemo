@@ -42,8 +42,17 @@ export const RegistrationMedicalDocumentsPage: React.FC = () => {
       case REGISTRATION_MEDICAL_TAB_IDS.visits:
         return <AllVisitsTab />;
 
+      case REGISTRATION_MEDICAL_TAB_IDS.consultation:
+        return <MedicalDocumentsTab title='Консультация врача' />;
+
+      case REGISTRATION_MEDICAL_TAB_IDS.instrumental:
+        return <MedicalDocumentsTab title='Инструментальные исследования' />;
+
       case REGISTRATION_MEDICAL_TAB_IDS.medicalDocs:
         return <MedicalDocumentsTab />;
+
+      case REGISTRATION_MEDICAL_TAB_IDS.files:
+        return <MedicalDocumentsTab title='Файлы' />;
 
       default:
         return <RegistrationPlaceholderTab />;

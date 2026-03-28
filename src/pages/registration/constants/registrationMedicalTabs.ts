@@ -13,7 +13,6 @@ export const REGISTRATION_MEDICAL_TABS: TabbedTableSectionTab[] = [
     id: REGISTRATION_MEDICAL_TAB_IDS.instrumental,
     label: 'Инструментальные иследования',
   },
-  { id: REGISTRATION_MEDICAL_TAB_IDS.lab, label: 'Лабороторные иследования' },
   { id: REGISTRATION_MEDICAL_TAB_IDS.medicalDocs, label: 'Медицинские документы' },
   { id: REGISTRATION_MEDICAL_TAB_IDS.files, label: 'Файлы' },
 ];

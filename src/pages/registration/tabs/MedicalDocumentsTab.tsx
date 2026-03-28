@@ -5,22 +5,27 @@ import { useMedicalDocumentsTableState } from '../hooks/useMedicalDocumentsTable
 import type { MedicalDocumentRow } from '../types/medicalDocumentRow';
 
 import { AppTable, TableToolbar } from 'shared';
+import { radii } from 'shared/tokens';
+
+export interface MedicalDocumentsTabProps {
+  /** Заголовок в `TableToolbar` (подпись раздела под табами). */
+  title?: string;
+}
 
 /**
- * Вкладка «Медицинские документы»: тулбар с заголовком и таблица с чекбоксами и сортировкой.
- * Состояние таблицы — в хуке `useMedicalDocumentsTableState`.
+ * Таблица меддокументов (мок): тулбар и `AppTable` с чекбоксами и сортировкой.
+ * Тот же UI переиспользуется на нескольких вкладках ЭМК с разным `title`.
+ * Состояние — в `useMedicalDocumentsTableState`.
  */
-export const MedicalDocumentsTab: React.FC = () => {
+export const MedicalDocumentsTab: React.FC<MedicalDocumentsTabProps> = ({
+  title = 'Медицинские документы',
+}) => {
   const { sortConfig, displayRows, selectedKeys, setSelectedKeys, toolbarActions } =
     useMedicalDocumentsTableState();
 
   return (
     <>
-      <TableToolbar
-        title='Медицинские документы'
-        actions={toolbarActions}
-        borderTopRadius='0'
-      />
+      <TableToolbar title={title} actions={toolbarActions} borderTopRadius={radii.xl} />
       <AppTable<MedicalDocumentRow>
         columns={MEDICAL_DOCUMENTS_COLUMNS}
         rows={displayRows}

@@ -9,8 +9,8 @@ import {
 import { MOCK_VISITS } from '../mocks/visits.mock';
 import type { Visit, VisitService } from '../types/visit';
 
-import { AddIcon, SettingsIcon } from '@chakra-ui/icons';
-import { Box, HStack, Td, Text, Tr, VStack } from '@chakra-ui/react';
+import { SettingsIcon } from '@chakra-ui/icons';
+import { HStack, Td, Text, Tr, VStack } from '@chakra-ui/react';
 import {
   ActionIconButton,
   AppTable,

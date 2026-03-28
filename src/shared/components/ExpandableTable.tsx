@@ -68,7 +68,6 @@ const ExpandSortableHeader: React.FC<ExpandSortableHeaderProps> = ({
       p={0}
       m={0}
       color='inherit'
-      font='inherit'
       fontWeight='inherit'
       textAlign='left'
       align='center'
@@ -245,7 +244,7 @@ export function ExpandableTable<Row>({
                 <Tr>
                   <Td colSpan={colCount} p={0} border='none'>
                     <Collapse in={expanded} animateOpacity>
-                      <Box bg='bg.tableNested' px={4} py={4}>
+                      <Box bg='white' px={4} py={4}>
                         {renderExpanded(row)}
                       </Box>
                     </Collapse>

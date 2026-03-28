@@ -94,7 +94,6 @@ const SortableHeader: React.FC<SortableHeaderProps> = ({
       p={0}
       m={0}
       color='inherit'
-      font='inherit'
       fontWeight='inherit'
       textAlign='left'
       align='center'
@@ -180,15 +179,18 @@ export function AppTable<Row>({
 
   return (
     <TableContainer
-      bg={noBorder ? 'transparent' : 'bg.surface'}
-      borderWidth={noBorder ? 0 : '1px'}
-      borderColor={noBorder ? undefined : 'border.subtle'}
-      borderTopWidth={0}
-      borderBottomRadius={noBorder ? 0 : radii.xl}
+      bg={noBorder ? 'bg.nestedTableSurface' : 'white'}
+      borderWidth='1px'
+      borderColor={noBorder ? 'border.nestedTable' : 'border.subtle'}
+      borderTopWidth={noBorder ? undefined : 0}
+      borderRadius={noBorder ? radii.xl : undefined}
+      borderBottomRadius={noBorder ? undefined : radii.xl}
+      ml={noBorder ? '84px' : undefined}
+      mr={noBorder ? '59px' : undefined}
       overflow='hidden'
     >
       <Table variant={variant} size={size} {...rest}>
-        <Thead>
+        <Thead sx={noBorder ? { height: '46px' } : undefined}>
           <Tr>
             {selection ? (
               <Th w='48px' px={3} verticalAlign='middle'>
@@ -247,7 +249,9 @@ export function AppTable<Row>({
             );
           })}
         </Tbody>
-        {tfoot ? <Tfoot>{tfoot}</Tfoot> : null}
+        {tfoot ? (
+          <Tfoot sx={noBorder ? { height: '46px' } : undefined}>{tfoot}</Tfoot>
+        ) : null}
       </Table>
     </TableContainer>
   );
